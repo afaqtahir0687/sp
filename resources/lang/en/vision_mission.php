@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'title' => 'Vision & Mission',
+    'meta_description' => 'Learn about our vision and mission at Crelogics.',
+    'meta_keywords' => 'vision, mission, company values',
+    'who_we_are' => 'Who We Are',
+    'contact_us' => 'Contact Us',
+    'vision_mission' => 'Vision & Mission',
+    'our_vision' => 'Our Vision',
+    'vision_text' => 'To be the leading provider of innovative printing and marketing solutions in the region.',
+    'vision_text2' => 'We aim to empower businesses by delivering creative, sustainable, and top-tier printing services that leave a lasting impact.',
+    'our_mission' => 'Our Mission',
+    'mission_text' => 'We are committed to delivering high-quality products and exceptional customer service to help businesses grow.',
+    'lead_quote' => 'We are committed to providing fast turnaround times, competitive pricing, and an unwavering focus on quality — ensuring every client feels valued, heard, and served with the highest standard of excellence.',
+    'our_core_values' => 'OUR CORE VALUES',
+    'quality_excellence' => 'Quality Excellence',
+    'quality_excellence_desc' => 'We never compromise on the quality of our products. Every item goes through rigorous quality checks to ensure it meets our high standards before reaching you.',
+    'customer_first' => 'Customer First',
+    'customer_first_desc' => 'Our customers are the heart of everything we do. We listen, adapt, and go above and beyond to ensure every client walks away satisfied and inspired.',
+    'innovation_integrity' => 'Innovation & Integrity',
+    'innovation_integrity_desc' => 'Honesty, transparency, and continuously investing in the latest printing technology are the foundation of our business and relationships.',
+    'ready_to_bring' => 'READY TO BRING YOUR IDEAS TO LIFE?',
+    'join_thousands' => 'Join thousands of satisfied customers who trust Crelogics for all their printing needs.',
+    'explore_our_products' => 'Explore Our Products',
+];

@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'title'                   => 'تتبع الطلب',
+    'order_tracking'          => 'تتبع الطلب',
+    'track_your_order'        => 'تتبع طلبك',
+    'track_order'             => 'تتبع الطلب',
+    'enter_details'           => 'أدخل تفاصيل طلبك للتتبع',
+    'order_number'            => 'رقم الطلب',
+    'order_number_placeholder'=> 'أدخل رقم طلبك',
+    'email_address'           => 'البريد الإلكتروني',
+    'registered_email'        => 'البريد الإلكتروني المسجل',
+    'track_my_order'          => 'تتبع طلبي',
+    'tracking'                => 'جارٍ التتبع...',
+    'order_results'           => 'نتائج الطلب',
+    'check_details'           => 'تحقق من تفاصيل الطلب',
+    'order_id'                => 'معرّف الطلب',
+    'date'                    => 'التاريخ',
+    'status'                  => 'الحالة',
+    'quantity'                => 'الكمية',
+    'address'                 => 'العنوان',
+    'arrived'                 => 'وصل',
+    'processing'              => 'قيد المعالجة',
+    'day'                     => 'يوم',
+    'order_not_found'         => 'لم يُعثر على الطلب. يرجى التحقق من تفاصيلك.',
+];

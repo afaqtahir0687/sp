@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'title'                   => 'Track Order',
+    'order_tracking'          => 'Order Tracking',
+    'track_your_order'        => 'Track Your Order',
+    'track_order'             => 'Track Order',
+    'enter_details'           => 'Enter your order details to track',
+    'order_number'            => 'Order Number',
+    'order_number_placeholder'=> 'Enter your order number',
+    'email_address'           => 'Email Address',
+    'registered_email'        => 'Registered Email Address',
+    'track_my_order'          => 'Track My Order',
+    'tracking'                => 'Tracking...',
+    'order_results'           => 'Order Results',
+    'check_details'           => 'Check Order Details',
+    'order_id'                => 'Order ID',
+    'date'                    => 'Date',
+    'status'                  => 'Status',
+    'quantity'                => 'Quantity',
+    'address'                 => 'Address',
+    'arrived'                 => 'Arrived',
+    'processing'              => 'Processing',
+    'day'                     => 'Day',
+    'order_not_found'         => 'Order not found. Please check your details.',
+];

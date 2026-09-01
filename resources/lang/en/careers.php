@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'title' => 'Careers',
+    'meta_description' => 'Explore career opportunities at Crelogics.',
+    'careers' => 'Careers',
+    'join_our_team' => 'Join Our Team',
+    'description' => 'We are always looking for talented individuals to join our growing team.',
+    'current_openings' => 'Current Openings',
+    'view_openings' => 'View Openings',
+    'why_work_with_us' => 'Why Work With Us?',
+    'competitive_salary' => 'Competitive Salary',
+    'collaborative_culture' => 'Collaborative Culture',
+    'professional_growth' => 'Professional Growth',
+    'state_of_the_art' => 'State-of-the-Art Facilities',
+    'dont_see_perfect_fit' => 'Don\'t see the perfect fit?',
+    'send_resume' => 'Send us your resume anyway! We are always on the lookout for great talent.',
+    'job_1_title' => 'Senior Graphic Designer',
+    'job_1_location' => 'Riyadh, SA | Full-Time',
+    'job_1_desc' => 'Looking for a creative designer with 3+ years of experience in print design, packaging, and branding.',
+    'apply_now' => 'Apply Now',
+    'job_2_title' => 'Offset Machine Operator',
+    'job_2_location' => 'Riyadh, SA | Full-Time',
+    'job_2_desc' => 'Seeking an experienced operator for Heidelberg multi-color offset presses with strong attention to color accuracy.',
+    'job_3_title' => 'Customer Service Representative',
+    'job_3_location' => 'Riyadh, SA | Full-Time',
+    'job_3_desc' => 'Join our B2B support team to assist clients with orders, quotes, and web-to-print portal guidance.',
+];
