@@ -10,6 +10,7 @@
     <meta name="author" content="">
 
     <title>Admin Smart Print</title>
+    <link rel="icon" type="image/jpeg" href="{{ asset('assets/images/demoes/demo4/title-logo.jpeg') }}">
     <link href="{{ asset('admin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
 
     <link
@@ -37,7 +38,7 @@
         }
 
         .smartprint-login-image {
-            background-image: url("{{ asset('admin/img/sp-logo.png') }}");
+            background-image: url("{{ asset('admin/img/sp-logo.jpeg') }}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;

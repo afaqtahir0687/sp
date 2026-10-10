@@ -41,7 +41,7 @@
     <meta name="description" content="{{ isset($seo) && !empty($seo->meta_description) ? $seo->meta_description : View::yieldContent('meta_description', 'Crelogics provides high-quality printing and advertisement services including business cards, flyers, banners, and digital marketing solutions.') }}">
     <meta name="author" content="SW-THEMES">
     <!--<link rel="icon" type="image/x-icon" href="assets/images/icons/favicon.png">-->
-    <link rel="icon" type="image/png" href="http://sp.crelogics.com/assets/images/demoes/demo4/favicon-title.png">
+    <link rel="icon" type="image/jpeg" href="{{ asset('assets/images/demoes/demo4/title-logo.jpeg') }}">
     
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 
