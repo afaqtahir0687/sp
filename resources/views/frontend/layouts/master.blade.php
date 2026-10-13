@@ -607,20 +607,150 @@
         .top-notice {
             background-color: #262263 !important;
             color: #fff !important;
+            padding: 8px 0 !important;
         }
-        .top-notice h5,
-        .top-notice small {
+        .top-notice h5 {
             color: #fff !important;
+            font-size: 13.5px;
+            font-weight: 500;
+            margin: 0 10px 0 0;
+            vertical-align: middle;
         }
-        .top-notice .category {
-            background-color: #2596be;
-            color: #fff;
-            border-radius: 30px;
-            padding: 2px 12px;
+        .top-notice h5 b {
+            color: #ffd166;
+            font-weight: 700;
+        }
+        .top-notice .top-notice-actions {
+            display: inline-flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            vertical-align: middle;
+        }
+        .top-notice-btn {
+            display: inline-flex !important;
+            align-items: center;
+            padding: 4px 14px;
+            border-radius: 20px;
             font-size: 12px;
+            font-weight: 700;
+            text-decoration: none !important;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+            border: 1px solid transparent;
+            line-height: 1.4;
+        }
+        .top-notice-btn.btn-notice-business {
+            background-color: #2596be !important;
+            color: #ffffff !important;
+        }
+        .top-notice-btn.btn-notice-business:hover {
+            background-color: #1a7a99 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 150, 190, 0.45);
+            color: #ffffff !important;
+        }
+        .top-notice-btn.btn-notice-discount {
+            background: linear-gradient(135deg, #f7941d 0%, #ff5722 100%) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: discountButtonPulse 2.5s infinite;
+        }
+        .top-notice-btn.btn-notice-discount:hover {
+            background: linear-gradient(135deg, #ff9f2c 0%, #ff6b3d 100%) !important;
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 4px 15px rgba(247, 148, 29, 0.55);
+            color: #ffffff !important;
+        }
+        @keyframes discountButtonPulse {
+            0%, 100% {
+                box-shadow: 0 2px 8px rgba(247, 148, 29, 0.3);
+            }
+            50% {
+                box-shadow: 0 3px 14px rgba(247, 148, 29, 0.65);
+            }
+        }
+
+        /* Animated Limited Time Badge */
+        .limited-time-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 209, 102, 0.45);
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 11.5px;
             font-weight: 600;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
+            color: #ffd166 !important;
+            letter-spacing: 0.2px;
+            vertical-align: middle;
+            margin-left: 8px;
+            animation: limitedGlow 2s infinite ease-in-out;
+            transition: all 0.3s ease;
+        }
+        .limited-pulse-dot {
+            width: 7px;
+            height: 7px;
+            background-color: #ff4757;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            animation: pulseLiveDot 1.5s infinite;
+        }
+        .limited-clock-icon {
+            font-size: 11px;
+            margin-right: 4px;
+            animation: clockTicking 2s infinite ease-in-out;
+        }
+        @keyframes pulseLiveDot {
+            0% {
+                transform: scale(0.9);
+                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
+            }
+            70% {
+                transform: scale(1.25);
+                box-shadow: 0 0 0 6px rgba(255, 71, 87, 0);
+            }
+            100% {
+                transform: scale(0.9);
+                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
+            }
+        }
+        @keyframes clockTicking {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(-12deg);
+            }
+            75% {
+                transform: rotate(12deg);
+            }
+        }
+        @keyframes limitedGlow {
+            0%, 100% {
+                border-color: rgba(255, 209, 102, 0.35);
+                box-shadow: 0 0 6px rgba(255, 209, 102, 0.15);
+            }
+            50% {
+                border-color: rgba(255, 209, 102, 0.9);
+                box-shadow: 0 0 14px rgba(255, 209, 102, 0.5);
+            }
+        }
+        [dir="rtl"] .top-notice h5 {
+            margin: 0 0 0 10px;
+        }
+        [dir="rtl"] .limited-time-badge {
+            margin-left: 0;
+            margin-right: 8px;
+        }
+        [dir="rtl"] .limited-pulse-dot {
+            margin-right: 0;
+            margin-left: 6px;
+        }
+        [dir="rtl"] .limited-clock-icon {
+            margin-right: 0;
+            margin-left: 4px;
         }
 
 
@@ -748,9 +878,19 @@
             <div class="container text-center">
                 <h5 class="d-inline-block">{{ __('top_notice.get_up_to') }} <b>40% {{ __('home.off') }}</b>
                     {{ __('top_notice.happy_new_year') }}</h5>
-                <a href="#" class="category">{{ __('common.business') }}</a>
-                <a href="#" class="category ml-2 mr-3">{{ __('common.cards') }}</a>
-                <small>* {{ __('top_notice.limited_time') }}</small>
+                <div class="top-notice-actions d-inline-flex">
+                    <a href="{{ route('subcategory.show', ['business-stationery', 'business-cards-printing']) }}" class="top-notice-btn btn-notice-business">
+                        <i class="fa fa-id-card mr-1"></i> {{ __('top_notice.business_cards') }}
+                    </a>
+                    <a href="{{ route('discount.offers') }}" class="top-notice-btn btn-notice-discount">
+                        <i class="fa fa-tag mr-1"></i> {{ __('top_notice.discount_offers') }}
+                    </a>
+                    <span class="limited-time-badge">
+                        <span class="limited-pulse-dot"></span>
+                        <i class="far fa-clock mr-1 limited-clock-icon"></i>
+                        <span class="limited-text">{{ __('top_notice.limited_time') }}</span>
+                    </span>
+                </div>
                 <button title="Close (Esc)" type="button" class="mfp-close">×</button>
             </div>
         </div>

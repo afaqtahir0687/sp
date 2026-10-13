@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title', __('category.browse_categories'))
+@section('title', isset($isDiscountOffers) && $isDiscountOffers ? (app()->getLocale() == 'ar' ? 'عروض الخصم' : 'Discount Offers') : __('category.browse_categories'))
 @section('meta_description', __('category.meta_description'))
 @section('meta_keywords', __('category.meta_keywords'))
 @section('content')
@@ -10,8 +10,13 @@
                 <div class="container position-relative">
                     <div class="row">
                         <div class="pl-lg-5 pb-5 pb-md-0 col-sm-5 col-xl-4 col-lg-4 offset-1">
-                            <h3>{{ __('category.printing_deals') }}</h3>
-                            <a href="{{ route('products.index') }}" class="btn btn-dark">{{ __('category.get_yours') }}</a>
+                            @if(isset($isDiscountOffers) && $isDiscountOffers)
+                                <h3>{{ app()->getLocale() == 'ar' ? 'عروض الخصم الحصرية' : 'Exclusive Discount Offers' }}</h3>
+                                <p class="text-white mb-2" style="font-size: 14px; text-transform: none;">{{ app()->getLocale() == 'ar' ? 'اكتشف أفضل المنتجات بأسعار مخفضة ولفترة محدودة.' : 'Discover top products with active discounts for a limited time.' }}</p>
+                            @else
+                                <h3>{{ __('category.printing_deals') }}</h3>
+                                <a href="{{ route('products.index') }}" class="btn btn-dark">{{ __('category.get_yours') }}</a>
+                            @endif
                         </div>
                         <div class="pl-lg-3 col-sm-4 offset-sm-0 offset-1 pt-3">
                             <div class="coupon-sale-content">
@@ -30,9 +35,14 @@
         <div class="container">
             <nav aria-label="breadcrumb" class="breadcrumb-nav">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#"><i class="icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="#">{{ __('category.business_cards') }}</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ __('category.categories') }}</li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="icon-home"></i></a></li>
+                    @if(isset($isDiscountOffers) && $isDiscountOffers)
+                        <li class="breadcrumb-item"><a href="{{ route('category.index') }}">{{ __('category.categories') }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ app()->getLocale() == 'ar' ? 'عروض الخصم' : 'Discount Offers' }}</li>
+                    @else
+                        <li class="breadcrumb-item"><a href="#">{{ __('category.business_cards') }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ __('category.categories') }}</li>
+                    @endif
                 </ol>
             </nav>
 
@@ -162,14 +172,14 @@
                         @empty
                             <div class="col-12">
                                 <div class="alert alert-info">
-                                    No products found.
+                                    {{ isset($isDiscountOffers) && $isDiscountOffers ? (app()->getLocale() == 'ar' ? 'لا توجد منتجات عليها خصم نشط حالياً.' : 'No active discount offers found at the moment.') : 'No products found.' }}
                                 </div>
                             </div>
                         @endforelse
                     </div>
                     <!-- End .row -->
                     <nav class="toolbox toolbox-pagination">
-                        {{ $products->links('pagination::bootstrap-4') }}
+                        {{ $products->appends(request()->query())->links('pagination::bootstrap-4') }}
                     </nav>
                 </div>
                 <!-- End .col-lg-9 -->

@@ -96,6 +96,7 @@ Route::get('currency-switch/{currency}', [App\Http\Controllers\Frontend\Currency
 // Original generic indices
 Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/discount-offers', [CategoryController::class, 'discountOffers'])->name('discount.offers');
 
 // Location Routes
 Route::get('/get-states/{countryId}', [App\Http\Controllers\Frontend\LocationController::class, 'getStates'])->name('get.states');

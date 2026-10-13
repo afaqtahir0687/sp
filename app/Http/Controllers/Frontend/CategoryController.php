@@ -47,6 +47,50 @@ class CategoryController extends Controller
         return view('frontend.pages.categories.index', compact('products', 'categories', 'sort', 'perPage'));
     }
 
+    public function discountOffers(Request $request)
+    {
+        $today = now()->toDateString();
+        $productsQuery = Product::with(['category', 'subcategory'])
+            ->where('status', 'active')
+            ->where('discount_price', '>', 0)
+            ->whereNotNull('discount_end_date')
+            ->whereDate('discount_end_date', '>=', $today);
+
+        // Handle sorting
+        $sort = $request->get('sort', 'newest');
+        switch ($sort) {
+            case 'price-asc':
+                $productsQuery->orderBy('price', 'asc');
+                break;
+            case 'price-desc':
+                $productsQuery->orderBy('price', 'desc');
+                break;
+            case 'newest':
+                $productsQuery->orderBy('created_at', 'desc');
+                break;
+            case 'oldest':
+                $productsQuery->orderBy('created_at', 'asc');
+                break;
+            case 'name-asc':
+                $productsQuery->orderBy('name_en', 'asc');
+                break;
+            case 'name-desc':
+                $productsQuery->orderBy('name_en', 'desc');
+                break;
+            default:
+                $productsQuery->orderBy('created_at', 'desc');
+                break;
+        }
+
+        // Handle pagination
+        $perPage = $request->get('per_page', 12);
+        $products = $productsQuery->paginate($perPage);
+        
+        $categories = Category::where('status', 'active')->latest()->get();
+        $isDiscountOffers = true;
+        return view('frontend.pages.categories.index', compact('products', 'categories', 'sort', 'perPage', 'isDiscountOffers'));
+    }
+
     public function show(Request $request, $category_slug, $subcategory_slug = null)
     {
         if ($subcategory_slug) {

@@ -462,6 +462,8 @@
                                                     @foreach($product->quantities as $qty)
                                                         <option value="{{ $qty }}">{{ $qty }}</option>
                                                     @endforeach
+                                                @else
+                                                    <option value="1">1</option>
                                                 @endif
                                             </select>
                                         </div>
@@ -556,7 +558,7 @@
                                             <small style="font-size: 9px; color: #718096; font-weight: 600; text-transform: uppercase;">Secs</small>
                                         </div>
                                     </div>
-                                    <input type="hidden" id="discount_end_timestamp" value="{{ $product->discount_end_date ? \Carbon\Carbon::parse($product->discount_end_date)->endOfDay()->toIso8601String() : '' }}">
+                                    <input type="hidden" id="discount_end_timestamp" value="{{ ($hasActiveDiscount && $product->discount_end_date) ? \Carbon\Carbon::parse($product->discount_end_date)->endOfDay()->toIso8601String() : '' }}">
                                 </div>
 
                                 <p class="total-price"><strong>Price:</strong> <span class="float-right"><span id="finalPrice_display">{{ format_price(0.00) }}</span></span></p>
@@ -757,9 +759,13 @@
                 // Countdown Timer Logic
                 function initCountdown() {
                     const endTimestampStr = $('#discount_end_timestamp').val();
-                    if (!endTimestampStr) return;
+                    if (!endTimestampStr) {
+                        $('#discount_ends_row').hide();
+                        return;
+                    }
 
                     const endTime = new Date(endTimestampStr).getTime();
+                    let timerInterval = null;
 
                     function updateTimer() {
                         const now = new Date().getTime();
@@ -767,7 +773,16 @@
 
                         if (timeRemaining <= 0) {
                             $('#discount_ends_row').hide();
-                            clearInterval(timerInterval);
+                            if (timerInterval) {
+                                clearInterval(timerInterval);
+                                timerInterval = null;
+                            }
+                            if (typeof discountRate !== 'undefined' && discountRate > 0) {
+                                discountRate = 0;
+                                if (typeof calculatePrice === 'function') {
+                                    calculatePrice();
+                                }
+                            }
                             return;
                         }
 
@@ -783,7 +798,10 @@
                     }
 
                     updateTimer();
-                    const timerInterval = setInterval(updateTimer, 1000);
+                    const now = new Date().getTime();
+                    if (endTime - now > 0) {
+                        timerInterval = setInterval(updateTimer, 1000);
+                    }
                 }
                 initCountdown();
 
@@ -983,12 +1001,12 @@
                         }
                     }
                 @endphp
-                const currentRate = {{ $currentRate }};
+                const currentRate = {{ (float) $currentRate }};
                 const currentSymbol = "{{ $currentSymbol }}";
-                const baseRate = {{ $product->price }};
-                const discountRate = {{ $hasActiveDiscount ? $product->discount_price : 0 }};
-                const flexRate = {{ $product->flexible_rate ?? 0 }};
-                const urgentRate = {{ $product->urgent_rate ?? 0 }};
+                const baseRate = {{ (float) ($product->price ?? 0) }};
+                let discountRate = {{ (float) ($hasActiveDiscount ? $product->discount_price : 0) }};
+                const flexRate = {{ (float) ($product->flexible_rate ?? 0) }};
+                const urgentRate = {{ (float) ($product->urgent_rate ?? 0) }};
 
                 const baseProdDays = {
                     regular: {{ $product->production_days ?? 3 }},
@@ -1002,9 +1020,9 @@
                 }
 
                 function calculatePrice() {
-                    let qty = parseInt($('#quantityField').val()) || 0;
+                    let qty = parseInt($('#quantityField').val()) || 1;
                     let numDesigns = parseInt($('#num_designs').val()) || 1;
-                    let urgency = $('input[name="urgency"]:checked').val();
+                    let urgency = $('input[name="urgency"]:checked').val() || 'regular';
 
                     // Price per unit: admin price = 1 unit ki qeemat
                     let regularPrice = qty * baseRate * numDesigns;
