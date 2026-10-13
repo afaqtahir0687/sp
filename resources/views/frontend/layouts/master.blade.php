@@ -601,11 +601,11 @@
         }
     </style>
 
-    {{-- ===== BRAND COLOR THEME: #153045 (Navy) + #2596be (Blue) ===== --}}
+    {{-- ===== BRAND COLOR THEME: #262263 (Navy) + #2596be (Blue) ===== --}}
     <style>
         /* ---- TOP NOTICE BAR ---- */
         .top-notice {
-            background-color: #153045 !important;
+            background-color: #262263 !important;
             color: #fff !important;
         }
         .top-notice h5,
@@ -630,10 +630,10 @@
 
         /* ---- MOBILE MENU ---- */
         .mobile-menu-container {
-            background-color: #153045 !important;
+            background-color: #262263 !important;
         }
         .mobile-menu-wrapper {
-            background-color: #153045 !important;
+            background-color: #262263 !important;
         }
         .mobile-menu > li > a {
             color: rgba(255,255,255,0.9) !important;
@@ -649,12 +649,12 @@
             color: #2596be !important;
         }
         .mobile-menu-toggler {
-            color: #153045 !important;
+            color: #262263 !important;
         }
 
         /* ---- STICKY NAV BAR (bottom mobile) ---- */
         .sticky-navbar {
-            background-color: #153045 !important;
+            background-color: #262263 !important;
             border-top: 2px solid #2596be !important;
         }
         .sticky-info a {
@@ -670,7 +670,7 @@
             color: #fff !important;
         }
         #scroll-top:hover {
-            background-color: #153045 !important;
+            background-color: #262263 !important;
         }
 
         /* ---- LINKS ACCENT ---- */
@@ -686,7 +686,7 @@
 
         /* ---- CART DROPDOWN HEADER ---- */
         .dropdown-cart-header {
-            color: #153045 !important;
+            color: #262263 !important;
             font-weight: 700;
         }
 
@@ -706,14 +706,14 @@
         .btn-info,
         .btn-warning,
         .btn-danger,
-        button:not(.mfp-close):not(.owl-prev):not(.owl-next):not(.owl-dot),
+        button:not(.mfp-close):not(.owl-prev):not(.owl-next):not(.owl-dot):not(.inquiry-popup-close),
         input[type="submit"],
         input[type="button"],
         .btn-icon,
         .btn-quickview,
         .btn-icon-wish {
-            background-color: #2596be !important;
-            border-color: #2596be !important;
+            background-color: #f7941d !important;
+            border-color: #f7941d !important;
             color: #ffffff !important;
         }
 
@@ -721,15 +721,15 @@
         .btn-primary:hover,
         .btn-secondary:hover,
         .btn-dark:hover,
-        button:not(.mfp-close):not(.owl-prev):not(.owl-next):not(.owl-dot):hover,
+        button:not(.mfp-close):not(.owl-prev):not(.owl-next):not(.owl-dot):not(.inquiry-popup-close):hover,
         input[type="submit"]:hover,
         input[type="button"]:hover,
         .btn-icon:hover,
         .btn-quickview:hover,
         .btn-icon-wish:hover,
         .btn-add-cart:hover {
-            background-color: #153045 !important;
-            border-color: #153045 !important;
+            background-color: #262263 !important;
+            border-color: #262263 !important;
             color: #ffffff !important;
         }
     </style>
@@ -974,13 +974,15 @@
             top: 15px;
             right: 15px;
             font-size: 28px;
-            color: #999;
+            color: #000000 !important;
             cursor: pointer;
             line-height: 1;
-            transition: color 0.2s;
-            background: none;
-            border: none;
-            padding: 0;
+            transition: color 0.2s, opacity 0.2s;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            outline: none !important;
+            padding: 0 !important;
         }
 
         [dir="rtl"] .inquiry-popup-close {
@@ -989,7 +991,9 @@
         }
 
         .inquiry-popup-close:hover {
-            color: #333;
+            color: #000000 !important;
+            background: transparent !important;
+            opacity: 0.7;
         }
 
         .inquiry-popup-header {
@@ -1051,7 +1055,7 @@
         }
 
         .inquiry-popup-btn:hover {
-            background-color: #153045;
+            background-color: #262263;
         }
 
         .inquiry-popup-btn:active {

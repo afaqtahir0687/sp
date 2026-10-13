@@ -171,7 +171,7 @@
                                 data-animation-delay="{{ $animationDelay }}">
                                 <figure class="w-100">
                                     <img src="{{ asset('storage/app/public/' . $banner->image) }}" alt="{{ $banner->title }}" width="380"
-                                        height="175" style="border: 12px solid #153045;" />
+                                        height="175" style="border: 12px solid #262263;" />
                                 </figure>
                             <div class="banner-layer {{ $index == 1 ? 'text-center' : ($index == 2 ? 'text-right' : '') }}">
                                 @if($index == 1)
@@ -1039,9 +1039,7 @@
                     </div>
 
                 <style>
-                .new-products-section{
-                    background-color: #2596be;
-                }
+
                     .printing-technologies-section {
                         padding-top: 1.5rem !important;
                         padding-bottom: 0.5rem !important;
@@ -1252,9 +1250,7 @@
                 </section>
                 <style>
                   
-                        .categories-section{
-                            background-color: #2596be;
-                        }
+
     
                     .testimonials-section {
                         padding-top: 2rem !important;
