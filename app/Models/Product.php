@@ -140,25 +140,35 @@ class Product extends Model
         return $this->belongsTo(SubCategory::class, 'subcategory_id');
     }
 
+    public function hasActiveDiscount()
+    {
+        if ($this->discount_price > 0) {
+            if (is_null($this->discount_end_date)) {
+                return true;
+            }
+            $endDate = \Carbon\Carbon::parse($this->discount_end_date)->endOfDay();
+            return $endDate->isFuture() || $endDate->isToday();
+        }
+        return false;
+    }
+
+    public function getOriginalPriceWithTax()
+    {
+        return (float) ($this->price * 1.15);
+    }
+
     public function getSellingPrice()
     {
-        $hasActiveDiscount = false;
-        if ($this->discount_price > 0) {
-            if (is_null($this->discount_end_date) || \Carbon\Carbon::parse($this->discount_end_date)->isFuture() || \Carbon\Carbon::parse($this->discount_end_date)->isToday()) {
-                $hasActiveDiscount = true;
-            }
-        }
-        return $hasActiveDiscount ? ($this->price - $this->discount_price) : $this->price;
+        return $this->hasActiveDiscount() ? max(0, $this->price - $this->discount_price) : (float) $this->price;
+    }
+
+    public function getFinalPriceWithTax()
+    {
+        return (float) ($this->getSellingPrice() * 1.15);
     }
 
     public function getDiscountAmount()
     {
-        $hasActiveDiscount = false;
-        if ($this->discount_price > 0) {
-            if (is_null($this->discount_end_date) || \Carbon\Carbon::parse($this->discount_end_date)->isFuture() || \Carbon\Carbon::parse($this->discount_end_date)->isToday()) {
-                $hasActiveDiscount = true;
-            }
-        }
-        return $hasActiveDiscount ? $this->discount_price : 0;
+        return $this->hasActiveDiscount() ? (float) $this->discount_price : 0.0;
     }
 }

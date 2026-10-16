@@ -166,8 +166,13 @@
                                             @if($product->is_featured)
                                                 <div class="product-label label-hot">HOT</div>
                                             @endif
-                                            @if($product->discount_percent)
-                                                <div class="product-label label-sale">{{ $product->discount_percent }}% off</div>
+                                            @if($product->hasActiveDiscount() && $product->discount_price > 0 && $product->price > 0)
+                                                @php
+                                                    $percentage = round(($product->discount_price / $product->price) * 100);
+                                                @endphp
+                                                @if($percentage > 0)
+                                                    <div class="product-label label-sale">-{{ $percentage }}%</div>
+                                                @endif
                                             @endif
                                         </div>
                                     </figure>
@@ -223,10 +228,12 @@
                                         </div>
 
                                         <div class="price-box">
-                                            @if($product->old_price)
-                                                <del class="old-price">{{ format_price($product->old_price) }}</del>
+                                            @if($product->hasActiveDiscount() && $product->discount_price > 0)
+                                                <del class="old-price">{{ format_price($product->getOriginalPriceWithTax()) }}</del>
+                                                <span class="product-price">{{ format_price($product->getFinalPriceWithTax()) }}</span>
+                                            @else
+                                                <span class="product-price">{{ format_price($product->getOriginalPriceWithTax()) }}</span>
                                             @endif
-                                            <span class="product-price">{{ format_price($product->price) }}</span>
                                         </div>
                                         <div class="product-action">
                                             <a href="#" class="btn-icon-wish" title="wishlist" data-wishlist-id="{{ $product->id }}" data-wishlist-type="product"><i class="icon-heart"></i></a>
@@ -406,6 +413,24 @@
         
         .list-view .product-default .btn-add-cart:hover {
             background-color: #000;
+        }
+
+        .list-view .product-default .btn-icon-wish,
+        .list-view .product-default .btn-quickview {
+            position: static !important;
+            top: auto !important;
+            right: auto !important;
+            left: auto !important;
+            bottom: auto !important;
+            margin: 0 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+        }
+
+        .list-view .product-default:hover .product-action a.btn-quickview {
+            position: static !important;
+            right: auto !important;
         }
 
         /* Hidden product details in grid view */

@@ -281,18 +281,13 @@
                                 </td>
                                  <td class="price-box">
                                     @php
-                                        $hasActiveDiscount = false;
-                                        if ($product->discount_price > 0) {
-                                            if (is_null($product->discount_end_date) || \Carbon\Carbon::parse($product->discount_end_date)->isFuture() || \Carbon\Carbon::parse($product->discount_end_date)->isToday()) {
-                                                $hasActiveDiscount = true;
-                                            }
-                                        }
+                                        $hasActiveDiscount = $product->hasActiveDiscount();
                                     @endphp
-                                    @if($hasActiveDiscount)
-                                        <del class="old-price" style="font-size: 1.2rem; color: #a8a8a8; margin-right: 5px;">{{ format_price($product->price) }}</del>
-                                        <span class="product-price" style="font-weight: 700; color: #000;">{{ format_price($product->price - $product->discount_price) }}</span>
+                                    @if($hasActiveDiscount && $product->discount_price > 0)
+                                        <del class="old-price" style="font-size: 1.2rem; color: #a8a8a8; margin-right: 5px;">{{ format_price($product->getOriginalPriceWithTax()) }}</del>
+                                        <span class="product-price" style="font-weight: 700; color: #000;">{{ format_price($product->getFinalPriceWithTax()) }}</span>
                                     @else
-                                        {{ format_price($product->price) }}
+                                        <span class="product-price" style="font-weight: 700; color: #000;">{{ format_price($product->getOriginalPriceWithTax()) }}</span>
                                     @endif
                                 </td>
                                 <td>

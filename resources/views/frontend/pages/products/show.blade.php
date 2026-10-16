@@ -441,6 +441,21 @@
                 </div><!-- End .row -->
             </div><!-- End .product-single-container -->
 
+            @php
+                $hasActiveDiscount = $product->hasActiveDiscount();
+                $initialQty = 1;
+                if (!empty($product->quantities) && is_array($product->quantities) && count($product->quantities) > 0) {
+                    $initialQty = (int) $product->quantities[0];
+                    if ($initialQty <= 0) $initialQty = 1;
+                }
+                $initialBaseRate = (float) ($product->price ?? 0);
+                $initialDiscountRate = (float) ($hasActiveDiscount ? $product->discount_price : 0);
+                $initialRegularSubtotal = $initialQty * $initialBaseRate;
+                $initialDiscountAmount = $initialDiscountRate > 0 ? ($initialQty * $initialDiscountRate) : 0;
+                $initialDiscounted = max(0, $initialRegularSubtotal - $initialDiscountAmount);
+                $initialTax = $initialDiscounted * 0.15;
+                $initialTotal = $initialDiscounted + $initialTax;
+            @endphp
             <div class="order-box">
                 <div class="order-header">
                     <h5>{{ __('product.your_order_details') }}</h5>
@@ -491,7 +506,7 @@
                                             <tr data-urgency="regular">
                                                 <td><input type="radio" name="urgency" value="regular" checked></td>
                                                 <td>{{ __('product.regular') }}</td>
-                                                <td id="price-regular">{{ format_price($product->price) }}</td>
+                                                <td id="price-regular">{{ format_price($initialTotal) }}</td>
                                                 <td id="days-production-regular">{{ $product->production_days ?? 3 }} {{ __('product.days') }}</td>
                                                 <td id="days-delivery-regular">{{ $product->delivery_days ?? 1 }} {{ __('product.day') }}</td>
                                             </tr>
@@ -499,7 +514,7 @@
                                                 <tr data-urgency="flexible">
                                                     <td><input type="radio" name="urgency" value="flexible"></td>
                                                     <td>{{ __('product.flexible') }}</td>
-                                                    <td id="price-flexible">{{ format_price($product->flexible_rate) }}</td>
+                                                    <td id="price-flexible">{{ format_price(max(0, ($product->flexible_rate * $initialQty) - $initialDiscountAmount) * 1.15) }}</td>
                                                     <td id="days-production-flexible">{{ $product->flexible_production_days ?? 5 }} {{ __('product.days') }}</td>
                                                     <td id="days-delivery-flexible">{{ $product->delivery_days ?? 1 }} {{ __('product.day') }}</td>
                                                 </tr>
@@ -508,7 +523,7 @@
                                                 <tr data-urgency="urgent">
                                                     <td><input type="radio" name="urgency" value="urgent"></td>
                                                     <td>{{ __('product.urgent') }}</td>
-                                                    <td id="price-urgent">{{ format_price($product->urgent_rate) }}</td>
+                                                    <td id="price-urgent">{{ format_price(max(0, ($product->urgent_rate * $initialQty) - $initialDiscountAmount) * 1.15) }}</td>
                                                     <td id="days-production-urgent">{{ $product->urgent_production_days ?? 1 }} {{ __('product.day') }}</td>
                                                     <td id="days-delivery-urgent">{{ $product->delivery_days ?? 1 }} {{ __('product.day') }}</td>
                                                 </tr>
@@ -520,20 +535,20 @@
                         </div>
                         <div class="col-md-4">
                             <div class="right-box">
-                                <p><strong>Before discount:</strong> <span class="float-right"><span id="subtotal_display">{{ format_price(0.00) }}</span></span></p>
+                                <p><strong>Before discount:</strong> <span class="float-right"><span id="subtotal_display">{{ format_price($initialRegularSubtotal) }}</span></span></p>
 
-                                <p id="discount_deduction_row" style="display: none;">
+                                <p id="discount_deduction_row" style="{{ $initialDiscountAmount > 0 ? '' : 'display: none;' }}">
                                     <strong class="text-success">Total discount:</strong>
-                                    <span class="float-right text-success font-weight-bold"><span id="discount_deduction_display"></span></span>
+                                    <span class="float-right text-success font-weight-bold"><span id="discount_deduction_display">-{{ format_price($initialDiscountAmount) }}</span></span>
                                 </p>
-                                <p id="no_discount_row">
+                                <p id="no_discount_row" style="{{ $initialDiscountAmount > 0 ? 'display: none;' : '' }}">
                                     <strong class="text-muted">Total discount:</strong>
                                     <span class="float-right text-muted">0</span>
                                 </p>
 
-                                <p><strong>Total tax (15.00%):</strong> <span class="float-right"><span id="tax_display">{{ format_price(0.00) }}</span></span></p>
+                                <p><strong>Total tax (15.00%):</strong> <span class="float-right"><span id="tax_display">{{ format_price($initialTax) }}</span></span></p>
 
-                                <div id="discount_ends_row" class="discount-timer-wrapper mt-2 mb-2" style="display: none; background: #fff5f5; border: 1px solid #feb2b2; border-radius: 8px; padding: 12px; box-shadow: 0 4px 6px rgba(229, 62, 62, 0.05); transition: all 0.3s ease;">
+                                <div id="discount_ends_row" class="discount-timer-wrapper mt-2 mb-2" style="{{ ($hasActiveDiscount && $product->discount_end_date) ? '' : 'display: none;' }} background: #fff5f5; border: 1px solid #feb2b2; border-radius: 8px; padding: 12px; box-shadow: 0 4px 6px rgba(229, 62, 62, 0.05); transition: all 0.3s ease;">
                                     <div class="d-flex align-items-center justify-content-between mb-1">
                                         <strong class="text-danger d-flex align-items-center" style="font-size: 13px; font-weight: 700; text-transform: none;">
                                             <i class="icon-clock mr-1" style="font-size: 15px; animation: pulse 1.5s infinite;"></i> Discount Ends In:
@@ -561,7 +576,7 @@
                                     <input type="hidden" id="discount_end_timestamp" value="{{ ($hasActiveDiscount && $product->discount_end_date) ? \Carbon\Carbon::parse($product->discount_end_date)->endOfDay()->toIso8601String() : '' }}">
                                 </div>
 
-                                <p class="total-price"><strong>Price:</strong> <span class="float-right"><span id="finalPrice_display">{{ format_price(0.00) }}</span></span></p>
+                                <p class="total-price"><strong>Price:</strong> <span class="float-right"><span id="finalPrice_display">{{ format_price($initialTotal) }}</span></span></p>
                                 <button id="addToCartBtn" class="btn btn-primary btn-block btn-lg">{{ __('product.add_to_cart_button') }}</button>
                             </div>
                         </div>
@@ -636,7 +651,12 @@
                             <div class="product-details">
                                 <h3 class="product-title"><a href="{{ route('product.show', [$related->category->slug, $related->subcategory ? $related->subcategory->slug : 'no-sub', $related->slug]) }}">{{ $related->name }}</a></h3>
                                 <div class="price-box">
-                                    <span class="product-price">{{ format_price($related->price) }}</span>
+                                    @if($related->hasActiveDiscount() && $related->discount_price > 0)
+                                        <del class="old-price">{{ format_price($related->getOriginalPriceWithTax()) }}</del>
+                                        <span class="product-price">{{ format_price($related->getFinalPriceWithTax()) }}</span>
+                                    @else
+                                        <span class="product-price">{{ format_price($related->getOriginalPriceWithTax()) }}</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>

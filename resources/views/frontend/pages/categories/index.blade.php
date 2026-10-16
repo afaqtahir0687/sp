@@ -135,15 +135,10 @@
                                             @endif
                                         </a>
                                         @php
-                                            $hasActiveDiscount = false;
-                                            if ($product->discount_price > 0) {
-                                                if (is_null($product->discount_end_date) || \Carbon\Carbon::parse($product->discount_end_date)->isFuture() || \Carbon\Carbon::parse($product->discount_end_date)->isToday()) {
-                                                    $hasActiveDiscount = true;
-                                                }
-                                            }
+                                            $hasActiveDiscount = $product->hasActiveDiscount();
                                         @endphp
                                         <div class="label-group">
-                                            @if($hasActiveDiscount && $product->discount_price > 0)
+                                            @if($hasActiveDiscount && $product->discount_price > 0 && $product->price > 0)
                                                 @php
                                                     $percentage = round(($product->discount_price / $product->price) * 100);
                                                 @endphp
@@ -155,16 +150,85 @@
                                     </figure>
 
                                     <div class="product-details">
+                                        <div class="category-list">
+                                            @if($product->category)
+                                                <a href="{{ route('category.show', $product->category->slug) }}" class="product-category text-uppercase">{{ $product->category->name }}</a>
+                                            @endif
+                                        </div>
                                         <h3 class="product-title">
                                             <a href="{{ route('product.show', [$product->category->slug, $product->subcategory->slug ?? 'no-sub', $product->slug]) }}">{{ $product->name }}</a>
                                         </h3>
+
+                                        <!-- Product List Details (Visible only in List View) -->
+                                        <div class="product-list-content">
+                                            @if($product->sku)
+                                                <div class="product-sku mb-1 text-muted">
+                                                    <small><strong>{{ __('product.sku') }}:</strong> <span class="text-dark font-weight-semibold">{{ $product->sku }}</span></small>
+                                                </div>
+                                            @endif
+
+                                            @php
+                                                $descText = strip_tags($product->short_description ?: $product->description);
+                                            @endphp
+                                            @if($descText)
+                                                <p class="product-short-desc mb-2 text-muted" style="line-height: 1.6;">
+                                                    {{ \Illuminate\Support\Str::limit($descText, 160) }}
+                                                </p>
+                                            @endif
+
+                                            <ul class="product-features list-unstyled mb-0">
+                                                @php
+                                                    $localizedMaterials = $product->getLocalizedMaterials();
+                                                    $localizedSizes = $product->getLocalizedSizes();
+                                                    $localizedLamination = $product->getLocalizedLaminationTypes();
+                                                @endphp
+                                                @if(isset($localizedMaterials) && is_array($localizedMaterials) && count($localizedMaterials) > 0)
+                                                    <li>
+                                                        <i class="fa fa-check text-primary mr-2"></i>
+                                                        <strong>{{ __('product.materials') }}</strong>&nbsp;<span>{{ implode(', ', array_slice($localizedMaterials, 0, 4)) }}{{ count($localizedMaterials) > 4 ? '...' : '' }}</span>
+                                                    </li>
+                                                @endif
+                                                @if(isset($localizedSizes) && is_array($localizedSizes) && count($localizedSizes) > 0)
+                                                    <li>
+                                                        <i class="fa fa-check text-primary mr-2"></i>
+                                                        <strong>{{ __('product.sizes') }}</strong>&nbsp;<span>{{ implode(', ', array_slice($localizedSizes, 0, 4)) }}{{ count($localizedSizes) > 4 ? '...' : '' }}</span>
+                                                    </li>
+                                                @endif
+                                                @if(isset($localizedLamination) && is_array($localizedLamination) && count($localizedLamination) > 0)
+                                                    <li>
+                                                        <i class="fa fa-check text-primary mr-2"></i>
+                                                        <strong>{{ __('product.lamination') ?? 'Lamination:' }}</strong>&nbsp;<span>{{ implode(', ', array_slice($localizedLamination, 0, 3)) }}{{ count($localizedLamination) > 3 ? '...' : '' }}</span>
+                                                    </li>
+                                                @endif
+                                                @if(!empty($product->production_days))
+                                                    <li>
+                                                        <i class="fa fa-clock text-primary mr-2"></i>
+                                                        <strong>{{ __('product.production') }}</strong>&nbsp;<span>{{ $product->production_days }} {{ __('product.days') }}</span>
+                                                    </li>
+                                                @endif
+                                                @if(!empty($product->delivery_days))
+                                                    <li>
+                                                        <i class="fa fa-truck text-primary mr-2"></i>
+                                                        <strong>{{ __('product.delivery') ?? 'Delivery:' }}</strong>&nbsp;<span>{{ $product->delivery_days }} {{ __('product.days') }}</span>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
+
                                         <div class="price-box">
                                             @if($hasActiveDiscount && $product->discount_price > 0)
-                                                <del class="old-price">{{ format_price($product->price) }}</del>
-                                                <span class="product-price">{{ format_price($product->price - $product->discount_price) }}</span>
+                                                <del class="old-price">{{ format_price($product->getOriginalPriceWithTax()) }}</del>
+                                                <span class="product-price">{{ format_price($product->getFinalPriceWithTax()) }}</span>
                                             @else
-                                                <span class="product-price">{{ format_price($product->price) }}</span>
+                                                <span class="product-price">{{ format_price($product->getOriginalPriceWithTax()) }}</span>
                                             @endif
+                                        </div>
+
+                                        <div class="product-action">
+                                            <a href="#" class="btn-icon-wish" title="wishlist" data-wishlist-id="{{ $product->id }}" data-wishlist-type="product"><i class="icon-heart"></i></a>
+                                            <a href="{{ route('product.show', [$product->category->slug, $product->subcategory->slug ?? 'no-sub', $product->slug]) }}"
+                                                class="btn-icon btn-add-cart"><i class="fa fa-arrow-right" style="padding: 1px 6px;"></i><span>{{ __('home.select_options') }}</span></a>
+                                            <a href="{{ route('product.show', [$product->category->slug, $product->subcategory->slug ?? 'no-sub', $product->slug]) }}" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -526,15 +590,23 @@
     </main>
 
     <style>
+        /* Hide list-specific details in grid view to keep grid clean & untouched */
+        .product-default .category-list,
+        .product-list-content,
+        .product-default .product-action {
+            display: none;
+        }
+
         /* Professional List View Styles */
         .list-view .product-default {
             display: flex;
             align-items: flex-start;
             margin-bottom: 2rem;
-            padding: 20px;
-            border: 1px solid #eee;
-            border-radius: 8px;
+            padding: 22px;
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
             background: #fff;
+            transition: all 0.3s ease;
         }
         
         .list-view .product-default:hover {
@@ -545,7 +617,11 @@
         .list-view .product-default figure {
             flex: 0 0 280px;
             max-width: 280px;
-            margin-right: 15px;
+            margin-right: 25px;
+            margin-bottom: 0;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
         }
 
         .list-view .product-default figure img {
@@ -557,23 +633,267 @@
         
         .list-view .product-default .product-details {
             flex: 1;
-            text-align: left;
+            text-align: left !important;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start !important;
+            justify-content: center;
+        }
+
+        .list-view .product-default .category-list {
+            display: block;
+            margin-bottom: 6px;
+            text-align: left !important;
+            width: 100%;
+        }
+
+        .list-view .product-default .category-list .product-category {
+            font-size: 1.2rem;
+            color: #888;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
         
         .list-view .product-default .product-title {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-align: left !important;
+            width: 100%;
+        }
+
+        .list-view .product-default .product-title a {
+            color: #222529 !important;
+            transition: color 0.2s ease;
+        }
+
+        .list-view .product-default .product-title a:hover {
+            color: #f7941d !important;
+        }
+
+        /* Product List Details (Visible only in List View) */
+        .list-view .product-list-content {
+            display: block;
             margin-bottom: 12px;
-            font-weight: 600;
+            font-size: 1.35rem;
+            color: #555;
+            line-height: 1.6;
+            text-align: left !important;
+            width: 100%;
+        }
+
+        .list-view .product-list-content .product-sku {
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+            text-align: left !important;
+        }
+
+        .list-view .product-list-content .product-short-desc {
+            font-size: 1.35rem;
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.6;
+            text-align: left !important;
+        }
+
+        .list-view .product-list-content .product-features {
+            padding: 0;
+            margin: 0;
+            text-align: left !important;
+            width: 100%;
+        }
+
+        .list-view .product-list-content .product-features li {
+            margin-bottom: 6px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start !important;
+            flex-wrap: wrap;
+            color: #444;
+        }
+
+        .list-view .product-list-content .product-features li i {
+            margin-right: 8px;
+            color: #f7941d !important;
+            font-size: 1.2rem;
         }
         
         .list-view .product-default .price-box {
-            margin-bottom: 15px;
+            display: flex !important;
+            align-items: baseline !important;
+            justify-content: flex-start !important;
+            margin-bottom: 12px !important;
+            margin-top: 10px !important;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #222529 !important;
+            width: 100%;
+        }
+
+        .list-view .product-default .price-box .old-price {
+            margin-right: 10px;
+            font-size: 1.5rem;
+            color: #999;
+        }
+        
+        .list-view .product-default .product-action {
+            display: flex !important;
+            justify-content: flex-start !important;
+            align-items: center !important;
+            margin-top: 12px !important;
+            gap: 10px !important;
+            width: 100%;
+        }
+
+        .list-view .product-default .btn-add-cart {
+            position: static !important;
+            font-weight: 600;
+            background-color: #f7941d !important;
+            border-color: #f7941d !important;
+            color: #fff !important;
+            padding: 8px 20px !important;
+            border-radius: 4px;
+            display: inline-flex !important;
+            align-items: center !important;
+            height: 38px !important;
+            margin: 0 !important;
+            transition: 0.3s !important;
+        }
+
+        .list-view .product-default .btn-add-cart:hover {
+            background-color: #262263 !important;
+            border-color: #262263 !important;
+            color: #fff !important;
+        }
+
+        .list-view .product-default .btn-icon-wish,
+        .list-view .product-default .btn-quickview {
+            position: static !important;
+            top: auto !important;
+            right: auto !important;
+            left: auto !important;
+            bottom: auto !important;
+            margin: 0 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 38px !important;
+            height: 38px !important;
+            border-radius: 4px !important;
+            border: 1px solid #e0e0e0 !important;
+            color: #555 !important;
+            background: #fff !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .list-view .product-default:hover .product-action a.btn-quickview,
+        .list-view .product-default .product-action a.btn-quickview:hover {
+            position: static !important;
+            right: auto !important;
+            opacity: 1 !important;
+            background-color: #262263 !important;
+            border-color: #262263 !important;
+            color: #fff !important;
+        }
+
+        .list-view .product-default .btn-icon-wish:hover {
+            background-color: #262263 !important;
+            border-color: #262263 !important;
+            color: #fff !important;
+        }
+
+        /* RTL support */
+        [dir="rtl"] .list-view .product-default figure {
+            margin-right: 0;
+            margin-left: 25px;
+        }
+        [dir="rtl"] .list-view .product-default .product-details,
+        [dir="rtl"] .list-view .product-default .category-list,
+        [dir="rtl"] .list-view .product-default .product-title,
+        [dir="rtl"] .list-view .product-default .product-list-content,
+        [dir="rtl"] .list-view .product-default .product-sku,
+        [dir="rtl"] .list-view .product-default .product-short-desc,
+        [dir="rtl"] .list-view .product-default .product-features {
+            text-align: right !important;
+        }
+        [dir="rtl"] .list-view .product-default .product-details {
+            align-items: flex-start !important;
+        }
+        [dir="rtl"] .list-view .product-default .product-features li {
+            justify-content: flex-start !important;
+        }
+        [dir="rtl"] .list-view .product-default .price-box,
+        [dir="rtl"] .list-view .product-default .product-action {
+            justify-content: flex-start !important;
+        }
+        [dir="rtl"] .list-view .product-default .price-box .old-price {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+        [dir="rtl"] .list-view .product-list-content .product-features li i {
+            margin-right: 0 !important;
+            margin-left: 8px !important;
         }
 
         /* RTL Arrow Fix for Categories Sidebar */
         [dir="rtl"] .cat-list .toggle {
             transform: rotate(180deg);
+        }
+
+        /* Responsive adjustment for list view on mobile */
+        @media (max-width: 767px) {
+            .list-view .product-default {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+            .list-view .product-default figure {
+                margin-right: 0;
+                margin-left: 0;
+                margin-bottom: 20px;
+                max-width: 100%;
+                flex: 0 0 100%;
+            }
+            .list-view .product-default figure img {
+                height: auto;
+                max-height: 280px;
+            }
+            .list-view .product-default .product-details {
+                text-align: center !important;
+                align-items: center !important;
+            }
+            .list-view .product-default .category-list,
+            .list-view .product-default .product-title,
+            .list-view .product-default .product-list-content,
+            .list-view .product-default .product-sku,
+            .list-view .product-default .product-short-desc,
+            .list-view .product-default .product-features {
+                text-align: center !important;
+            }
+            .list-view .product-default .price-box,
+            .list-view .product-default .product-action {
+                justify-content: center !important;
+            }
+            .list-view .product-list-content .product-features li {
+                justify-content: center !important;
+            }
+            [dir="rtl"] .list-view .product-default figure {
+                margin-left: 0;
+            }
+            [dir="rtl"] .list-view .product-default .product-details,
+            [dir="rtl"] .list-view .product-default .category-list,
+            [dir="rtl"] .list-view .product-default .product-title,
+            [dir="rtl"] .list-view .product-default .product-list-content,
+            [dir="rtl"] .list-view .product-default .product-sku,
+            [dir="rtl"] .list-view .product-default .product-short-desc,
+            [dir="rtl"] .list-view .product-default .product-features {
+                text-align: center !important;
+            }
         }
     </style>
 

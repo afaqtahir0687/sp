@@ -383,12 +383,7 @@
                                     @endif
                                 </a>
                                 @php
-                                    $hasActiveDiscount = false;
-                                    if ($product->discount_price > 0) {
-                                        if (is_null($product->discount_end_date) || \Carbon\Carbon::parse($product->discount_end_date)->isFuture() || \Carbon\Carbon::parse($product->discount_end_date)->isToday()) {
-                                            $hasActiveDiscount = true;
-                                        }
-                                    }
+                                    $hasActiveDiscount = $product->hasActiveDiscount();
                                 @endphp
                                 <div class="label-group">
                                     @if($product->is_featured)
@@ -425,10 +420,10 @@
                                 </div>
                                 <div class="price-box">
                                     @if($hasActiveDiscount && $product->discount_price > 0)
-                                        <del class="old-price">{{ format_price($product->price) }}</del>
-                                        <span class="product-price">{{ format_price($product->price - $product->discount_price) }}</span>
+                                        <del class="old-price">{{ format_price($product->getOriginalPriceWithTax()) }}</del>
+                                        <span class="product-price">{{ format_price($product->getFinalPriceWithTax()) }}</span>
                                     @else
-                                        <span class="product-price">{{ format_price($product->price) }}</span>
+                                        <span class="product-price">{{ format_price($product->getOriginalPriceWithTax()) }}</span>
                                     @endif
                                 </div>
                                 <div class="product-action">
@@ -691,12 +686,7 @@
                                     @endif
                                 </a>
                                 @php
-                                    $hasActiveDiscount = false;
-                                    if ($product->discount_price > 0) {
-                                        if (is_null($product->discount_end_date) || \Carbon\Carbon::parse($product->discount_end_date)->isFuture() || \Carbon\Carbon::parse($product->discount_end_date)->isToday()) {
-                                            $hasActiveDiscount = true;
-                                        }
-                                    }
+                                    $hasActiveDiscount = $product->hasActiveDiscount();
                                 @endphp
                                 <div class="label-group">
                                     @if($product->is_featured || $product->is_new_arrival)
@@ -731,12 +721,12 @@
                                         <span class="tooltiptext tooltip-top"></span>
                                     </div>
                                 </div>
-                               <div class="price-box">
+                                <div class="price-box">
                                     @if($hasActiveDiscount && $product->discount_price > 0)
-                                        <del class="old-price">{{ format_price($product->price) }}</del>
-                                        <span class="product-price">{{ format_price($product->price - $product->discount_price) }}</span>
+                                        <del class="old-price">{{ format_price($product->getOriginalPriceWithTax()) }}</del>
+                                        <span class="product-price">{{ format_price($product->getFinalPriceWithTax()) }}</span>
                                     @else
-                                        <span class="product-price">{{ format_price($product->price) }}</span>
+                                        <span class="product-price">{{ format_price($product->getOriginalPriceWithTax()) }}</span>
                                     @endif
                                 </div>
                                 <div class="product-action">
