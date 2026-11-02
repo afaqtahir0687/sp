@@ -41,7 +41,15 @@ class Product extends Model
         'side_1_colors',
         'sides_options',
         'lamination_types',
+        'lamination_price',
         'die_cutting_options',
+        'orientations',
+        'orientations_ar',
+        'folding_options',
+        'folding_options_ar',
+        'binding_options',
+        'binding_options_ar',
+        'material_prices',
         'is_featured',
         'is_new_arrival',
         'is_wishlist',
@@ -108,11 +116,116 @@ class Product extends Model
         return app()->getLocale() === 'ar' && $this->die_cutting_options_ar ? $this->die_cutting_options_ar : $this->die_cutting_options;
     }
 
+    public function getLocalizedOrientations()
+    {
+        return app()->getLocale() === 'ar' && $this->orientations_ar ? $this->orientations_ar : $this->orientations;
+    }
+
+    public function getLocalizedFoldingOptions()
+    {
+        return app()->getLocale() === 'ar' && $this->folding_options_ar ? $this->folding_options_ar : $this->folding_options;
+    }
+
+    public function getLocalizedBindingOptions()
+    {
+        return app()->getLocale() === 'ar' && $this->binding_options_ar ? $this->binding_options_ar : $this->binding_options;
+    }
+
+    /**
+     * Get unit price for a given material.
+     * Uses explicit material price if defined in material_prices,
+     * otherwise computes realistic weight-based multiplier.
+     */
+    public function getMaterialRate($materialName)
+    {
+        $base = (float) $this->price;
+        if (empty($materialName)) {
+            return $base;
+        }
+
+        // Check if custom price configured in material_prices
+        if (!empty($this->material_prices) && is_array($this->material_prices)) {
+            if (isset($this->material_prices[$materialName]) && is_numeric($this->material_prices[$materialName])) {
+                return (float) $this->material_prices[$materialName];
+            }
+            // Also try trimmed key match
+            $trimmedName = trim($materialName);
+            foreach ($this->material_prices as $key => $val) {
+                if (trim($key) === $trimmedName && is_numeric($val)) {
+                    return (float) $val;
+                }
+            }
+        }
+
+        // Automatic fallback scaling by weight/type matching Zeejprint patterns
+        $multiplier = 1.0;
+        if (preg_match('/(\d+)\s*(gsm|coated|matt|gloss)?/i', $materialName, $matches)) {
+            $weight = (int) $matches[1];
+            if ($weight <= 200) {
+                $multiplier = 0.85;
+            } elseif ($weight <= 250) {
+                $multiplier = 0.90;
+            } elseif ($weight <= 300) {
+                $multiplier = 0.95;
+            } elseif ($weight <= 350) {
+                $multiplier = 1.00; // standard base
+            } elseif ($weight >= 400) {
+                $multiplier = 1.25;
+            }
+        } elseif (stripos($materialName, 'invercote') !== false || stripos($materialName, 'ivory') !== false) {
+            $multiplier = 1.25;
+        } elseif (stripos($materialName, 'conqueror') !== false || stripos($materialName, 'textured') !== false) {
+            $multiplier = 1.30;
+        }
+
+        return round($base * $multiplier, 2);
+    }
+
+    public function getLaminationUnitRate($sides = 2)
+    {
+        $baseLamination = 0.0;
+        if (!empty($this->lamination_price) && $this->lamination_price > 0) {
+            $baseLamination = (float) $this->lamination_price;
+        } else {
+            $baseLamination = round(((float) $this->price) * 0.20, 2);
+            if ($baseLamination <= 0) {
+                $baseLamination = 0.50;
+            }
+        }
+
+        if ((int) $sides === 1) {
+            return round($baseLamination / 2, 2);
+        }
+
+        return $baseLamination;
+    }
+
+    public function getAllMaterialRates()
+    {
+        $rates = [];
+        $materials = $this->materials ?? [];
+        if (is_array($materials)) {
+            foreach ($materials as $mat) {
+                $rates[trim($mat)] = $this->getMaterialRate($mat);
+            }
+        }
+        $materialsAr = $this->materials_ar ?? [];
+        if (is_array($materialsAr)) {
+            foreach ($materialsAr as $idx => $matAr) {
+                $enMat = $materials[$idx] ?? $matAr;
+                $rates[trim($matAr)] = $this->getMaterialRate($enMat);
+            }
+        }
+        return $rates;
+    }
+
+
     protected $casts = [
         'images' => 'array',
         'quantities' => 'array',
         'materials' => 'array',
         'materials_ar' => 'array',
+        'material_prices' => 'array',
         'sizes' => 'array',
         'sizes_ar' => 'array',
         'side_1_colors' => 'array',
@@ -121,8 +234,15 @@ class Product extends Model
         'sides_options_ar' => 'array',
         'lamination_types' => 'array',
         'lamination_types_ar' => 'array',
+        'lamination_price' => 'decimal:2',
         'die_cutting_options' => 'array',
         'die_cutting_options_ar' => 'array',
+        'orientations' => 'array',
+        'orientations_ar' => 'array',
+        'folding_options' => 'array',
+        'folding_options_ar' => 'array',
+        'binding_options' => 'array',
+        'binding_options_ar' => 'array',
         'is_featured' => 'boolean',
         'is_new_arrival' => 'boolean',
         'allow_custom_quantity' => 'boolean',

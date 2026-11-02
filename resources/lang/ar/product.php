@@ -41,4 +41,13 @@ return [
     'size_guide' => 'دليل المقاسات',
     'additional_information' => 'معلومات إضافية',
     'all_information' => 'جميع المعلومات',
+    'lamination_coated_only' => 'تغليف (للورق المطلي فقط)',
+    'lamination_sides' => 'الجهة / الوجوه',
+    'one_side' => 'وجه واحد',
+    'two_sides' => 'وجهين',
+    'orientation' => 'الاتجاه',
+    'folding' => 'الطي',
+    'binding' => 'التجليد / الحامل',
+    'before_discount' => 'قبل الخصم',
+    'discount' => 'الخصم',
 ];

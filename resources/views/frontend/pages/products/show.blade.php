@@ -306,6 +306,17 @@
                                     </div>
                                 @endif
 
+                                @if($product->getLocalizedOrientations())
+                                    <div class="form-group">
+                                        <label for="orientation">{{ __('product.orientation') }}</label>
+                                        <select class="form-control" id="orientation" name="orientation">
+                                            @foreach($product->getLocalizedOrientations() as $option)
+                                                <option value="{{ $option }}">{{ $option }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
+
                                 @if($product->getLocalizedSidesOptions())
                                     <div class="form-group">
                                         <label for="sides">{{ __('product.sides') }}</label>
@@ -334,22 +345,55 @@
                                     </div>
                                 @endif
 
+                                @if($product->getLocalizedFoldingOptions())
+                                    <div class="form-group">
+                                        <label for="folding">{{ __('product.folding') }}</label>
+                                        <select class="form-control" id="folding" name="folding">
+                                            @foreach($product->getLocalizedFoldingOptions() as $option)
+                                                <option value="{{ $option }}">{{ $option }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
+
+                                @if($product->getLocalizedBindingOptions())
+                                    <div class="form-group">
+                                        <label for="binding">{{ __('product.binding') }}</label>
+                                        <select class="form-control" id="binding" name="binding">
+                                            @foreach($product->getLocalizedBindingOptions() as $option)
+                                                <option value="{{ $option }}">{{ $option }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
+
                                 @if($product->getLocalizedLaminationTypes())
                                     <div class="toggle-box" id="laminationBox">
                                         <div class="toggle-header" style="padding-bottom: 0; margin-bottom: 0;">
-                                            <span class="toggle-label">{{ __('product.lamination') }}</span>
+                                            <span class="toggle-label font-weight-bold">{{ __('product.lamination_coated_only') }}</span>
                                             <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input" id="laminationToggle" name="lamination">
+                                                <input type="checkbox" class="custom-control-input" id="laminationToggle" name="lamination" checked>
                                                 <label class="custom-control-label" for="laminationToggle"></label>
                                             </div>
                                         </div>
-                                        <div id="laminationOptions" class="d-none">
-                                            <label for="lamination_type">{{ __('product.lamination_type') }}</label>
-                                            <select class="form-control" id="lamination_type" name="lamination_type">
-                                                @foreach($product->getLocalizedLaminationTypes() as $option)
-                                                    <option value="{{ $option }}">{{ $option }}</option>
-                                                @endforeach
-                                            </select>
+                                        <div id="laminationOptions" class="mt-2 pt-2 border-top">
+                                            <div class="row">
+                                                <div class="col-sm-6 mb-2">
+                                                    <label for="lamination_sides" class="font-weight-bold small text-muted text-uppercase mb-1">{{ __('product.lamination_sides') }}</label>
+                                                    <select class="form-control" id="lamination_sides" name="lamination_sides">
+                                                        <option value="2">{{ __('product.two_sides') }}</option>
+                                                        <option value="1">{{ __('product.one_side') }}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-6 mb-2">
+                                                    <label for="lamination_type" class="font-weight-bold small text-muted text-uppercase mb-1">{{ __('product.lamination_type') }}</label>
+                                                    <select class="form-control" id="lamination_type" name="lamination_type">
+                                                        @foreach($product->getLocalizedLaminationTypes() as $option)
+                                                            <option value="{{ $option }}">{{ $option }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 @endif
@@ -448,8 +492,13 @@
                     $initialQty = (int) $product->quantities[0];
                     if ($initialQty <= 0) $initialQty = 1;
                 }
-                $initialBaseRate = (float) ($product->price ?? 0);
-                $initialDiscountRate = (float) ($hasActiveDiscount ? $product->discount_price : 0);
+                $materialsList = $product->getLocalizedMaterials();
+                $initialMaterial = !empty($materialsList) ? $materialsList[0] : null;
+                $initialMatRate = $product->getMaterialRate($initialMaterial);
+                $initialMatRatio = ((float) $product->price > 0) ? ($initialMatRate / (float) $product->price) : 1.0;
+                $initialLamRate = $product->getLocalizedLaminationTypes() ? $product->getLaminationUnitRate(2) : 0;
+                $initialBaseRate = $initialMatRate + $initialLamRate;
+                $initialDiscountRate = (float) ($hasActiveDiscount ? ($product->discount_price * $initialMatRatio) : 0);
                 $initialRegularSubtotal = $initialQty * $initialBaseRate;
                 $initialDiscountAmount = $initialDiscountRate > 0 ? ($initialQty * $initialDiscountRate) : 0;
                 $initialDiscounted = max(0, $initialRegularSubtotal - $initialDiscountAmount);
@@ -836,6 +885,10 @@
                     if ($('#size').length) {
                         selections.push({ label: 'Size', value: $('#size').val() });
                     }
+                    // Orientation
+                    if ($('#orientation').length) {
+                        selections.push({ label: 'Orientation', value: $('#orientation').val() });
+                    }
                     // Sides
                     if ($('#sides').length) {
                         selections.push({ label: 'Sides', value: $('#sides').val() });
@@ -844,10 +897,23 @@
                     if ($('#material').length) {
                         selections.push({ label: 'Material', value: $('#material').val() });
                     }
+                    // Folding
+                    if ($('#folding').length) {
+                        selections.push({ label: 'Folding', value: $('#folding').val() });
+                    }
+                    // Binding
+                    if ($('#binding').length) {
+                        selections.push({ label: 'Binding', value: $('#binding').val() });
+                    }
                     // Lamination
                     if ($('#laminationToggle').length) {
-                        const val = $('#laminationToggle').is(':checked') ? $('#lamination_type').val() : 'None';
-                        selections.push({ label: 'Lamination', value: val });
+                        if ($('#laminationToggle').is(':checked')) {
+                            let sidesText = $('#lamination_sides').val() == '1' ? '1 Side' : '2 Sides';
+                            let typeText = $('#lamination_type').val() || '';
+                            selections.push({ label: 'Lamination', value: sidesText + (typeText ? ' (' + typeText + ')' : '') });
+                        } else {
+                            selections.push({ label: 'Lamination', value: 'None' });
+                        }
                     }
                     // Die Cutting
                     if ($('#dieToggle').length) {
@@ -1020,13 +1086,21 @@
                             $hasActiveDiscount = true;
                         }
                     }
+                    $allMaterialRates = $product->getAllMaterialRates();
+                    $laminationPrice2Sides = $product->getLaminationUnitRate(2);
+                    $laminationPrice1Side = $product->getLaminationUnitRate(1);
                 @endphp
                 const currentRate = {{ (float) $currentRate }};
                 const currentSymbol = "{{ $currentSymbol }}";
-                const baseRate = {{ (float) ($product->price ?? 0) }};
-                let discountRate = {{ (float) ($hasActiveDiscount ? $product->discount_price : 0) }};
+                const productBasePrice = {{ (float) ($product->price ?? 0) }};
+                let productDiscountPrice = {{ (float) ($hasActiveDiscount ? $product->discount_price : 0) }};
                 const flexRate = {{ (float) ($product->flexible_rate ?? 0) }};
                 const urgentRate = {{ (float) ($product->urgent_rate ?? 0) }};
+                const materialRates = {!! json_encode($allMaterialRates) !!};
+                const laminationRates = {
+                    1: {{ (float) $laminationPrice1Side }},
+                    2: {{ (float) $laminationPrice2Sides }}
+                };
 
                 const baseProdDays = {
                     regular: {{ $product->production_days ?? 3 }},
@@ -1039,17 +1113,60 @@
                     return currentSymbol + (amount * currentRate).toFixed(2);
                 }
 
+                function getSelectedMaterialRate() {
+                    let selectedMat = $('#material').val();
+                    if (selectedMat) {
+                        let trimmed = selectedMat.trim();
+                        if (materialRates[trimmed] !== undefined) {
+                            return parseFloat(materialRates[trimmed]);
+                        }
+                        // Fallback weight detection matching Zeejprint
+                        let match = trimmed.match(/(\d+)\s*(gsm|coated|matt|gloss)?/i);
+                        if (match) {
+                            let weight = parseInt(match[1]);
+                            let mult = 1.0;
+                            if (weight <= 200) mult = 0.85;
+                            else if (weight <= 250) mult = 0.90;
+                            else if (weight <= 300) mult = 0.95;
+                            else if (weight <= 350) mult = 1.00;
+                            else if (weight >= 400) mult = 1.25;
+                            return productBasePrice * mult;
+                        }
+                    }
+                    return productBasePrice;
+                }
+
+                function getSelectedLaminationRate() {
+                    if (!$('#laminationToggle').length || !$('#laminationToggle').is(':checked')) {
+                        return 0;
+                    }
+                    let sides = parseInt($('#lamination_sides').val()) || 2;
+                    if (laminationRates[sides] !== undefined) {
+                        return laminationRates[sides];
+                    }
+                    return sides === 1 ? (laminationRates[2] / 2) : laminationRates[2];
+                }
+
                 function calculatePrice() {
                     let qty = parseInt($('#quantityField').val()) || 1;
                     let numDesigns = parseInt($('#num_designs').val()) || 1;
                     let urgency = $('input[name="urgency"]:checked').val() || 'regular';
 
-                    // Price per unit: admin price = 1 unit ki qeemat
-                    let regularPrice = qty * baseRate * numDesigns;
-                    let flexiblePrice = qty * flexRate * numDesigns;
-                    let urgentPrice = qty * urgentRate * numDesigns;
+                    let matRate = getSelectedMaterialRate();
+                    let lamRate = getSelectedLaminationRate();
+                    let matRatio = productBasePrice > 0 ? (matRate / productBasePrice) : 1.0;
 
-                    let discountAmount = discountRate > 0 ? qty * discountRate * numDesigns : 0;
+                    let effectiveBaseUnitRate = matRate + lamRate;
+                    let effectiveFlexUnitRate = (flexRate > 0 ? (flexRate * matRatio) : matRate) + lamRate;
+                    let effectiveUrgentUnitRate = (urgentRate > 0 ? (urgentRate * matRatio) : matRate) + lamRate;
+
+                    let discountPerUnit = productDiscountPrice > 0 ? (productDiscountPrice * matRatio) : 0;
+
+                    let regularPrice = qty * effectiveBaseUnitRate * numDesigns;
+                    let flexiblePrice = qty * effectiveFlexUnitRate * numDesigns;
+                    let urgentPrice = qty * effectiveUrgentUnitRate * numDesigns;
+
+                    let discountAmount = discountPerUnit > 0 ? (qty * discountPerUnit * numDesigns) : 0;
 
                     let finalRegular = Math.max(0, regularPrice - discountAmount) * 1.15;
                     let finalFlexible = Math.max(0, flexiblePrice - discountAmount) * 1.15;
@@ -1167,7 +1284,7 @@
                     });
                 });
 
-                $(document).on('input change', '#quantityField, #num_designs, input[name="urgency"], #side1Color, #size, #sides, #material, #laminationToggle, #lamination_type, #dieToggle, #die_cutting_type, #productMemo, #roundToggle', function() {
+                $(document).on('input change', '#quantityField, #num_designs, input[name="urgency"], #side1Color, #size, #orientation, #sides, #material, #folding, #binding, #laminationToggle, #lamination_sides, #lamination_type, #dieToggle, #die_cutting_type, #productMemo, #roundToggle', function() {
                     calculatePrice();
                     updateSelectionsSummary();
                 });

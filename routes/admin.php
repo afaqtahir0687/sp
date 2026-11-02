@@ -47,6 +47,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('categories', CategoryController::class);
         Route::resource('subcategories', SubcategoryController::class);
         Route::resource('products', ProductController::class);
+        Route::get('products/get-options/{product}', [ProductController::class, 'getOptions'])->name('products.get-options');
+        Route::get('products/{product}/pdf', [ProductController::class, 'pdf'])->name('products.pdf');
+        Route::get('categories/get-latest-options', [ProductController::class, 'getCategoryLatestOptions'])->name('categories.get-latest-options');
         Route::resource('blank-products', BlankProductController::class);
         Route::resource('blank-categories', \App\Http\Controllers\Admin\BlankCategoryController::class);
         Route::resource('blank-subcategories', \App\Http\Controllers\Admin\BlankSubCategoryController::class);

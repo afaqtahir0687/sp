@@ -50,32 +50,44 @@ class CartController extends Controller
             }
         }
 
+        $selectedMaterial = $request->input('material');
+        $effectiveMaterialRate = $product->getMaterialRate($selectedMaterial);
+        $materialRatio = ((float) $product->price > 0) ? ($effectiveMaterialRate / (float) $product->price) : 1.0;
+
+        $lamSurcharge = 0.0;
+        if ($request->has('lamination') && $request->input('lamination')) {
+            $lamSides = (int) $request->input('lamination_sides', 2);
+            $lamSurcharge = $product->getLaminationUnitRate($lamSides);
+        }
+
         $base_rate = 0;
         $production_days = 0;
 
         if ($urgency === 'flexible') {
-            $base_rate = $product->flexible_rate;
+            $base_rate = ($product->flexible_rate > 0 ? (float) $product->flexible_rate * $materialRatio : $effectiveMaterialRate) + $lamSurcharge;
             $production_days = $product->flexible_production_days ?? 5;
         } elseif ($urgency === 'urgent') {
-            $base_rate = $product->urgent_rate;
+            $base_rate = ($product->urgent_rate > 0 ? (float) $product->urgent_rate * $materialRatio : $effectiveMaterialRate) + $lamSurcharge;
             $production_days = $product->urgent_production_days ?? 1;
         } else {
             // Regular
-            $base_rate = $product->price;
+            $base_rate = $effectiveMaterialRate + $lamSurcharge;
             $production_days = $product->production_days ?? 3;
         }
 
-        $discount_value = $hasActiveDiscount ? $product->discount_price : 0;
+        $discount_value = 0;
+        if ($hasActiveDiscount && $product->discount_price > 0) {
+            $discount_value = round((float) $product->discount_price * $materialRatio, 2);
+        }
         $rate = max(0, $base_rate - $discount_value);
 
         if ($rate <= 0) $rate = $base_rate;
 
-
         $options = $request->except(['_token', 'quantity', 'print_quantity', 'urgency']);
         
         // Price per unit: admin price = 1 unit ki qeemat
-        $unit_price = $print_quantity * $rate;
-        $unit_original_price = $print_quantity * $base_rate;
+        $unit_price = round($print_quantity * $rate, 2);
+        $unit_original_price = round($print_quantity * $base_rate, 2);
 
         // Generate a unique ID for the cart item based on product, quantities, urgency AND options
         $optionsHash = !empty($options) ? '_' . md5(json_encode($options)) : '';

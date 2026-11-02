@@ -41,4 +41,13 @@ return [
     'size_guide' => 'Size Guide',
     'additional_information' => 'Additional Information',
     'all_information' => 'All Information',
+    'lamination_coated_only' => 'Lamination (Coated Papers Only)',
+    'lamination_sides' => 'Sides',
+    'one_side' => '1 Side',
+    'two_sides' => '2 Sides',
+    'orientation' => 'Orientation',
+    'folding' => 'Folding',
+    'binding' => 'Binding / Stand',
+    'before_discount' => 'Before Discount',
+    'discount' => 'Discount',
 ];
