@@ -29,7 +29,10 @@ class ContactMessageMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Contact Us Message - ' . env('APP_NAME', 'Crelogics'),
+            subject: 'New Contact Us Message - ' . config('app.name', 'Crelogics'),
+            replyTo: [
+                new \Illuminate\Mail\Mailables\Address($this->messageData['email'], $this->messageData['name'] ?? null)
+            ]
         );
     }
 

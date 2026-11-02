@@ -106,11 +106,7 @@
     <div class="wrapper">
         <div class="content">
             <div class="header">
-                @if(config('app.logo'))
-                    <img src="{{ asset('storage/app/public/' . config('app.logo')) }}" alt="{{ config('app.name', 'Smart Print') }}" style="max-width: 150px;">
-                @else
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="{{ config('app.name', 'Smart Print') }}" style="max-width: 150px;">
-                @endif
+                @include('mail.partials.logo')
             </div>
             <div class="body">
                 <div class="greeting">Welcome to our community, {{ $user->first_name }}! 🎉</div>

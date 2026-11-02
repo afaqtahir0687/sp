@@ -138,17 +138,26 @@ class HomeController extends Controller
             'is_read' => false,
         ]);
 
+                // 1. Send confirmation email to the user who submitted the form
         try {
-            // Send email to admin
-            $adminEmail = env('MAIL_FROM_ADDRESS', 'afaqtahir0687@gmail.com');
+            if (!empty($message->email)) {
+                Mail::to($message->email)->send(new \App\Mail\ContactMessageConfirmationMail($message->toArray()));
+            }
+        } catch (\Exception $e) {
+            \Log::error('Failed to send contact confirmation email to user: ' . $e->getMessage());
+        }
+
+        // 2. Send notification email to admin
+        try {
+            $recipients = array_filter([config('mail.from.address', 'newsign2014@gmail.com')]);
             $setting = \App\Models\ContactSetting::first();
-            if ($setting && $setting->email) {
-                $adminEmail = $setting->email;
+            if ($setting && $setting->email && !in_array($setting->email, $recipients)) {
+                $recipients[] = $setting->email;
             }
 
-            Mail::to($adminEmail)->send(new ContactMessageMail($message->toArray()));
+            Mail::to($recipients)->send(new ContactMessageMail($message->toArray()));
         } catch (\Exception $e) {
-            \Log::error('Failed to send contact message email: ' . $e->getMessage());
+            \Log::error('Failed to send contact message email to admin: ' . $e->getMessage());
         }
 
         return redirect()->back()->with('success', 'Thank you for your message! We will get back to you soon.');
@@ -184,13 +193,13 @@ class HomeController extends Controller
         ]);
 
         try {
-            $adminEmail = env('MAIL_FROM_ADDRESS', 'afaqtahir0687@gmail.com');
+            $recipients = array_filter([config('mail.from.address', 'newsign2014@gmail.com')]);
             $setting = \App\Models\ContactSetting::first();
-            if ($setting && $setting->email) {
-                $adminEmail = $setting->email;
+            if ($setting && $setting->email && !in_array($setting->email, $recipients)) {
+                $recipients[] = $setting->email;
             }
 
-            Mail::to($adminEmail)->send(new \App\Mail\SalesVisitRequestMail($request->all()));
+            Mail::to($recipients)->send(new \App\Mail\SalesVisitRequestMail($request->all()));
         } catch (\Exception $e) {
             \Log::error('Failed to send sales visit request email: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('error', 'There was an error sending your request. Please try again later.');
