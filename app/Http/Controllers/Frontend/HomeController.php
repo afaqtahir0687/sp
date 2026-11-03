@@ -147,15 +147,12 @@ class HomeController extends Controller
             \Log::error('Failed to send contact confirmation email to user: ' . $e->getMessage());
         }
 
-        // 2. Send notification email to admin
+                // 2. Send notification email to admin
         try {
-            $recipients = array_filter([config('mail.from.address', 'newsign2014@gmail.com')]);
-            $setting = \App\Models\ContactSetting::first();
-            if ($setting && $setting->email && !in_array($setting->email, $recipients)) {
-                $recipients[] = $setting->email;
+            $recipients = $this->getAdminRecipients();
+            if (!empty($recipients)) {
+                Mail::to($recipients)->send(new ContactMessageMail($message->toArray()));
             }
-
-            Mail::to($recipients)->send(new ContactMessageMail($message->toArray()));
         } catch (\Exception $e) {
             \Log::error('Failed to send contact message email to admin: ' . $e->getMessage());
         }
@@ -192,14 +189,11 @@ class HomeController extends Controller
             'is_read' => false,
         ]);
 
-        try {
-            $recipients = array_filter([config('mail.from.address', 'newsign2014@gmail.com')]);
-            $setting = \App\Models\ContactSetting::first();
-            if ($setting && $setting->email && !in_array($setting->email, $recipients)) {
-                $recipients[] = $setting->email;
+                try {
+            $recipients = $this->getAdminRecipients();
+            if (!empty($recipients)) {
+                Mail::to($recipients)->send(new \App\Mail\SalesVisitRequestMail($request->all()));
             }
-
-            Mail::to($recipients)->send(new \App\Mail\SalesVisitRequestMail($request->all()));
         } catch (\Exception $e) {
             \Log::error('Failed to send sales visit request email: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('error', 'There was an error sending your request. Please try again later.');
@@ -276,5 +270,36 @@ class HomeController extends Controller
             'message' => 'Your inquiry has been submitted successfully!'
         ]);
     }
-}
 
+    /**
+     * Get all admin recipient email addresses for system notifications.
+     */
+    protected function getAdminRecipients(): array
+    {
+        $adminEmails = [];
+
+        // 1. From Contact Settings (Admin dashboard)
+        $setting = \App\Models\ContactSetting::first();
+        if ($setting && !empty($setting->email)) {
+            $adminEmails[] = trim($setting->email);
+        }
+
+        // 2. From Settings table contact_email
+        $settingEmail = \App\Models\Setting::where('key', 'contact_email')->value('value');
+        if (!empty($settingEmail)) {
+            $adminEmails[] = trim($settingEmail);
+        }
+
+        // 3. From Admins table
+        $dbAdmins = \App\Models\Admin::pluck('email')->filter()->all();
+        $adminEmails = array_merge($adminEmails, $dbAdmins);
+
+        // 4. Configured mail sender & primary store admin emails
+        $adminEmails[] = 'meemwork0687@gmail.com';
+        $adminEmails[] = config('mail.from.address', 'newsign2014@gmail.com');
+
+        return array_values(array_unique(array_filter($adminEmails, function ($email) {
+            return filter_var($email, FILTER_VALIDATE_EMAIL);
+        })));
+    }
+}

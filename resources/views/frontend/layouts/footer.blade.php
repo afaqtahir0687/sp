@@ -11,11 +11,11 @@
                             </li>
                             <li>
                                 <span class="contact-info-label">{{ __('footer.phone') }}</span><a
-                                    href="tel:+966557834154">+966557834154</a>
+                                    href="tel:+966598500143">+966598500143</a>
                             </li>
                             <li>
                                 <span class="contact-info-label">{{ __('footer.email') }}</span> <a
-                                    href="mailto:creelogics@gmail.com">creelogics@gmail.com</a>
+                                    href="mailto:newsign2014@gmail.com">newsign2014@gmail.com</a>
                             </li>
                             <li>
                                 <span class="contact-info-label">{{ __('footer.working_days') }}</span> {{ __('footer.working_hours') }}

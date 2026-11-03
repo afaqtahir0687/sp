@@ -1244,7 +1244,7 @@
             margin-top: 16px;
         }
     </style>
-    <a href="https://wa.me/966557834154?text=Hello%20Crelogics,%20I%20am%20interested%20in%20your%20services."
+    <a href="https://wa.me/966598500143?text=Hello,%20I%20am%20interested%20in%20your%20services."
         class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
@@ -1452,8 +1452,8 @@
                             $('#inquiry-popup').removeClass('show');
                             
                             // Construct WhatsApp message details and open in new tab
-                            const text = `Hello Crelogics,\n\nI have a new inquiry:\n- *Name:* ${name}\n- *Email:* ${email}\n- *Phone:* ${phone}\n- *Message:* ${message}`;
-                            const whatsappUrl = `https://wa.me/966557834154?text=${encodeURIComponent(text)}`;
+                            const text = `Hello,\n\nI have a new inquiry:\n- *Name:* ${name}\n- *Email:* ${email}\n- *Phone:* ${phone}\n- *Message:* ${message}`;
+                            const whatsappUrl = `https://wa.me/966598500143?text=${encodeURIComponent(text)}`;
                             window.open(whatsappUrl, '_blank');
                             
                             form[0].reset();

@@ -162,7 +162,7 @@
 
                 <div class="header-contact d-none d-lg-flex pl-4 pr-4">
                     <img alt="phone" src="{{ asset('assets/images/phone.png') }}" width="30" height="30" class="pb-1">
-                    <h6><span>{{ __('header.call_us_now') }}</span><a href="tel:+966557834154" class="text-dark font1" dir="ltr">+966557834154</a></h6>
+                    <h6><span>{{ __('header.call_us_now') }}</span><a href="tel:+966598500143" class="text-dark font1" dir="ltr">+966598500143</a></h6>
                 </div>
 
                 <a href="{{ auth()->check() ? route('dashboard') : route('login') }}" class="header-icon" title="login"><i class="icon-user-2"></i></a>
