@@ -12,7 +12,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::orderBy('id', 'desc')->get();
+        $categories = Category::orderBy('order', 'asc')->orderBy('id', 'asc')->get();
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -28,6 +28,7 @@ class CategoryController extends Controller
             'name_ar' => 'required|unique:categories',
             'status' => 'required',
             'banner_text_color' => 'nullable|string|max:20',
+            'order' => 'nullable|integer',
         ]);
 
         $category = new Category();
@@ -47,6 +48,7 @@ class CategoryController extends Controller
         $category->banner_button_text_ar = $request->banner_button_text_ar;
         $category->banner_button_link = $request->banner_button_link;
         $category->banner_text_color = $request->banner_text_color;
+        $category->order = $request->order ?? 0;
         
         if ($request->hasFile('image')) {
             $category->image = $request->file('image')->storeOriginal('categories', 'public');
@@ -77,6 +79,7 @@ class CategoryController extends Controller
             'name_ar' => 'required|unique:categories,name_ar,' . $category->id,
             'status' => 'required',
             'banner_text_color' => 'nullable|string|max:20',
+            'order' => 'nullable|integer',
         ]);
 
         $category->name_en = $request->name_en;
@@ -95,6 +98,7 @@ class CategoryController extends Controller
         $category->banner_button_text_ar = $request->banner_button_text_ar;
         $category->banner_button_link = $request->banner_button_link;
         $category->banner_text_color = $request->banner_text_color;
+        $category->order = $request->order ?? 0;
 
         if ($request->hasFile('image')) {
             if ($category->image) {

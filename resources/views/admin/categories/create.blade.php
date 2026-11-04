@@ -132,6 +132,12 @@
                 <hr>
 
                 <div class="form-group">
+                    <label>Display Order (ترتیب)</label>
+                    <input type="number" name="order" class="form-control" value="{{ old('order', 0) }}" placeholder="e.g. 1 for 1st, 2 for 2nd">
+                    <small class="text-muted">Determines the display order in menus and home page (1 shows first, 2 second, etc.).</small>
+                </div>
+
+                <div class="form-group">
                     <label>Status</label>
                     <select name="status" class="form-control">
                         <option value="active">Active</option>

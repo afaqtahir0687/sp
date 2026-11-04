@@ -14,6 +14,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>Order</th>
                             <th>ID</th>
                             <th>Image</th>
                             <th>Name</th>
@@ -26,6 +27,7 @@
                     <tbody>
                         @foreach($categories as $category)
                             <tr>
+                                <td><span class="badge badge-primary font-weight-bold" style="font-size: 13px;">#{{ $category->order ?? 0 }}</span></td>
                                 <td>{{ $category->id }}</td>
                                 <td><img src="{{ asset('storage/app/public/' . $category->image) }}" width="100" alt="Category Image"></td>
                                 <td>

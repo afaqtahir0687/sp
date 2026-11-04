@@ -17,7 +17,7 @@ class HomeController extends Controller
         $promoBanner = \App\Models\Banner::where('status', 'active')->where('type', 'promo')->first();
         $featuredProducts = \App\Models\Product::with(['category', 'subcategory'])->where('is_featured', true)->where('status', 'active')->orderBy('id', 'asc')->take(10)->get();
         $newArrivals = \App\Models\Product::with(['category', 'subcategory'])->where('is_new_arrival', true)->where('status', 'active')->orderBy('id', 'asc')->take(10)->get();
-        $categories = \App\Models\Category::where('status', 'active')->withCount('products')->get();
+        $categories = \App\Models\Category::where('status', 'active')->orderBy('order', 'asc')->withCount('products')->get();
         $services = \App\Models\Service::where('status', 'active')->get();
         $printingTechnologies = \App\Models\PrintingTechnology::where('status', 'active')->orderBy('id', 'asc')->get();
         $industries = \App\Models\Industry::where('status', 'active')->orderBy('id', 'asc')->get();

@@ -16,6 +16,7 @@ class Category extends Model
         'image',
         'home_image',
         'status',
+        'order',
         'banner_image',
         'banner_top_text_en',
         'banner_top_text_ar',
@@ -56,32 +57,26 @@ class Category extends Model
         return app()->getLocale() === 'ar' && $this->banner_button_text_ar ? $this->banner_button_text_ar : $this->banner_button_text_en;
     }
 
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }
-
     public function subcategories()
     {
         return $this->hasMany(SubCategory::class);
     }
 
-    // Helper method to get all products including from subcategories
-    public function getAllProducts()
+    public function products()
     {
-        $productIds = $this->products()->pluck('id');
-        
-        // Get products from all subcategories
-        foreach ($this->subcategories as $subcategory) {
-            $productIds = $productIds->merge($subcategory->products()->pluck('id'));
-        }
-        
-        return Product::whereIn('id', $productIds)->where('status', 'active');
+        return $this->hasMany(Product::class);
     }
 
-    // Get full category path for breadcrumbs (simply returns itself now as it's top level)
-    public function getFullPath()
+    public function getAllProducts()
     {
-        return collect([$this]);
+        // Get directly assigned products
+        $directProducts = $this->products()->where('status', 'active');
+
+        // Get products from subcategories
+        $subcategoryIds = $this->subcategories()->pluck('id');
+        $subcategoryProducts = Product::whereIn('subcategory_id', $subcategoryIds)->where('status', 'active');
+
+        // Combine both queries using union
+        return $directProducts->union($subcategoryProducts);
     }
 }

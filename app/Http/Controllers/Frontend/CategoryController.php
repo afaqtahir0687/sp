@@ -43,7 +43,7 @@ class CategoryController extends Controller
         $perPage = $request->get('per_page', 12);
         $products = $productsQuery->paginate($perPage);
         
-        $categories = Category::where('status', 'active')->latest()->get();
+        $categories = Category::where('status', 'active')->orderBy('order', 'asc')->get();
         return view('frontend.pages.categories.index', compact('products', 'categories', 'sort', 'perPage'));
     }
 
@@ -86,7 +86,7 @@ class CategoryController extends Controller
         $perPage = $request->get('per_page', 12);
         $products = $productsQuery->paginate($perPage);
         
-        $categories = Category::where('status', 'active')->latest()->get();
+        $categories = Category::where('status', 'active')->orderBy('order', 'asc')->get();
         $isDiscountOffers = true;
         return view('frontend.pages.categories.index', compact('products', 'categories', 'sort', 'perPage', 'isDiscountOffers'));
     }
