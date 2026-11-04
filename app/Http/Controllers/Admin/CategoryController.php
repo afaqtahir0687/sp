@@ -27,6 +27,7 @@ class CategoryController extends Controller
             'name_en' => 'required|unique:categories',
             'name_ar' => 'required|unique:categories',
             'status' => 'required',
+            'banner_text_color' => 'nullable|string|max:20',
         ]);
 
         $category = new Category();
@@ -45,17 +46,18 @@ class CategoryController extends Controller
         $category->banner_button_text_en = $request->banner_button_text_en;
         $category->banner_button_text_ar = $request->banner_button_text_ar;
         $category->banner_button_link = $request->banner_button_link;
+        $category->banner_text_color = $request->banner_text_color;
         
         if ($request->hasFile('image')) {
-            $category->image = $request->file('image')->store('categories', 'public');
+            $category->image = $request->file('image')->storeOriginal('categories', 'public');
         }
 
         if ($request->hasFile('home_image')) {
-            $category->home_image = $request->file('home_image')->store('categories', 'public');
+            $category->home_image = $request->file('home_image')->storeOriginal('categories', 'public');
         }
 
         if ($request->hasFile('banner_image')) {
-            $category->banner_image = $request->file('banner_image')->store('categories', 'public');
+            $category->banner_image = $request->file('banner_image')->storeOriginal('categories', 'public');
         }
 
         $category->save();
@@ -74,6 +76,7 @@ class CategoryController extends Controller
             'name_en' => 'required|unique:categories,name_en,' . $category->id,
             'name_ar' => 'required|unique:categories,name_ar,' . $category->id,
             'status' => 'required',
+            'banner_text_color' => 'nullable|string|max:20',
         ]);
 
         $category->name_en = $request->name_en;
@@ -91,26 +94,27 @@ class CategoryController extends Controller
         $category->banner_button_text_en = $request->banner_button_text_en;
         $category->banner_button_text_ar = $request->banner_button_text_ar;
         $category->banner_button_link = $request->banner_button_link;
+        $category->banner_text_color = $request->banner_text_color;
 
         if ($request->hasFile('image')) {
             if ($category->image) {
                 Storage::disk('public')->delete($category->image);
             }
-            $category->image = $request->file('image')->store('categories', 'public');
+            $category->image = $request->file('image')->storeOriginal('categories', 'public');
         }
 
         if ($request->hasFile('home_image')) {
             if ($category->home_image) {
                 Storage::disk('public')->delete($category->home_image);
             }
-            $category->home_image = $request->file('home_image')->store('categories', 'public');
+            $category->home_image = $request->file('home_image')->storeOriginal('categories', 'public');
         }
 
         if ($request->hasFile('banner_image')) {
             if ($category->banner_image) {
                 Storage::disk('public')->delete($category->banner_image);
             }
-            $category->banner_image = $request->file('banner_image')->store('categories', 'public');
+            $category->banner_image = $request->file('banner_image')->storeOriginal('categories', 'public');
         }
 
         $category->save();

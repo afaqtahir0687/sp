@@ -33,27 +33,27 @@
                                 <div class="product-item">
                                     <img class="product-single-image" src="assets/images/products/zoom/product-1-big.jpg"
                                         data-zoom-image="assets/images/products/zoom/product-1-big.jpg" width="468"
-                                        height="468" alt="product" />
+                                        height="468" alt="Featured Printing Product" />
                                 </div>
                                 <div class="product-item">
                                     <img class="product-single-image" src="assets/images/products/zoom/product-2-big.jpg"
                                         data-zoom-image="assets/images/products/zoom/product-2-big.jpg" width="468"
-                                        height="468" alt="product" />
+                                        height="468" alt="Featured Printing Product" />
                                 </div>
                                 <div class="product-item">
                                     <img class="product-single-image" src="assets/images/products/zoom/product-3-big.jpg"
                                         data-zoom-image="assets/images/products/zoom/product-3-big.jpg" width="468"
-                                        height="468" alt="product" />
+                                        height="468" alt="Featured Printing Product" />
                                 </div>
                                 <div class="product-item">
                                     <img class="product-single-image" src="assets/images/products/zoom/product-4-big.jpg"
                                         data-zoom-image="assets/images/products/zoom/product-4-big.jpg" width="468"
-                                        height="468" alt="product" />
+                                        height="468" alt="Featured Printing Product" />
                                 </div>
                                 <div class="product-item">
                                     <img class="product-single-image" src="assets/images/products/zoom/product-5-big.jpg"
                                         data-zoom-image="assets/images/products/zoom/product-5-big.jpg" width="468"
-                                        height="468" alt="product" />
+                                        height="468" alt="Featured Printing Product" />
                                 </div>
                             </div>
                             <!-- End .product-single-carousel -->
@@ -65,23 +65,23 @@
                         <div class="prod-thumbnail owl-dots">
                             <div class="owl-dot">
                                 <img src="assets/images/products/zoom/product-1.jpg" width="110" height="110"
-                                    alt="product-thumbnail" />
+                                    alt="Product Thumbnail Preview" />
                             </div>
                             <div class="owl-dot">
                                 <img src="assets/images/products/zoom/product-2.jpg" width="110" height="110"
-                                    alt="product-thumbnail" />
+                                    alt="Product Thumbnail Preview" />
                             </div>
                             <div class="owl-dot">
                                 <img src="assets/images/products/zoom/product-3.jpg" width="110" height="110"
-                                    alt="product-thumbnail" />
+                                    alt="Product Thumbnail Preview" />
                             </div>
                             <div class="owl-dot">
                                 <img src="assets/images/products/zoom/product-4.jpg" width="110" height="110"
-                                    alt="product-thumbnail" />
+                                    alt="Product Thumbnail Preview" />
                             </div>
                             <div class="owl-dot">
                                 <img src="assets/images/products/zoom/product-5.jpg" width="110" height="110"
-                                    alt="product-thumbnail" />
+                                    alt="Product Thumbnail Preview" />
                             </div>
                         </div>
                     </div><!-- End .product-single-gallery -->
@@ -96,7 +96,7 @@
 
                                     <span class="product-popup">
                                         <span class="box-content">
-                                            <img alt="product" width="150" height="150"
+                                            <img alt="Featured Printing Product" width="150" height="150"
                                                 src="assets/images/products/product-3.jpg" style="padding-top: 0px;">
 
                                             <span>Business card Circled Ultimate 3D Speaker</span>
@@ -111,7 +111,7 @@
 
                                     <span class="product-popup">
                                         <span class="box-content">
-                                            <img alt="product" width="150" height="150"
+                                            <img alt="Featured Printing Product" width="150" height="150"
                                                 src="assets/images/products/product-4.jpg" style="padding-top: 0px;">
 
                                             <span>Business card Blue Backpack for the Young</span>
@@ -791,9 +791,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="assets/images/products/product-1.jpg" width="280" height="280"
-                                    alt="product">
+                                    alt="Featured Printing Product">
                                 <img src="assets/images/products/product-1-2.jpg" width="280" height="280"
-                                    alt="product">
+                                    alt="Featured Printing Product">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-hot">HOT</div>
@@ -833,9 +833,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="assets/images/products/product-3.jpg" width="280" height="280"
-                                    alt="product">
+                                    alt="Featured Printing Product">
                                 <img src="assets/images/products/product-3-2.jpg" width="280" height="280"
-                                    alt="product">
+                                    alt="Featured Printing Product">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-hot">HOT</div>
@@ -875,9 +875,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="assets/images/products/product-7.jpg" width="280" height="280"
-                                    alt="product">
+                                    alt="Featured Printing Product">
                                 <img src="assets/images/products/product-7-2.jpg" width="280" height="280"
-                                    alt="product">
+                                    alt="Featured Printing Product">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-hot">HOT</div>
@@ -917,9 +917,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="assets/images/products/product-6.jpg" width="280" height="280"
-                                    alt="product">
+                                    alt="Featured Printing Product">
                                 <img src="assets/images/products/product-6-2.jpg" width="280" height="280"
-                                    alt="product">
+                                    alt="Featured Printing Product">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-hot">HOT</div>
@@ -959,9 +959,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="assets/images/products/product-4.jpg" width="280" height="280"
-                                    alt="product">
+                                    alt="Featured Printing Product">
                                 <img src="assets/images/products/product-4-2.jpg" width="280" height="280"
-                                    alt="product">
+                                    alt="Featured Printing Product">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-hot">HOT</div>
@@ -1014,7 +1014,7 @@
                             <div>
                                 <figure>
                                     <img src="assets/images/elements/testimonial/client1.png" width="62"
-                                        height="62" alt="client" style="border-radius: 50%;">
+                                        height="62" alt="Customer Review Testimonial" style="border-radius: 50%;">
                                 </figure>
                                 <blockquote class="text-gray">
                                     <p> We are extremely satisfied with the quality and professionalism of the service.
@@ -1034,7 +1034,7 @@
                             <div>
                                 <figure>
                                     <img src="assets/images/elements/testimonial/client1.png" width="62"
-                                        height="62" alt="client">
+                                        height="62" alt="Customer Review Testimonial">
                                 </figure>
                                 <blockquote class="text-gray">
                                     <p> Working with this company has been a great experience from start to finish.

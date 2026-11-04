@@ -20,7 +20,7 @@ class SettingController extends Controller
         // Handle site logo upload
         if ($request->hasFile('site_logo')) {
             $logo = $request->file('site_logo');
-            $logoPath = $logo->store('settings', 'public');
+            $logoPath = $logo->storeOriginal('settings', 'public');
             
             $setting = Setting::firstOrNew(['key' => 'site_logo']);
             $setting->value = $logoPath;

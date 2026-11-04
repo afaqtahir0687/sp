@@ -61,7 +61,7 @@ class BookController extends Controller
         if ($request->hasFile('images')) {
             $images = [];
             foreach ($request->file('images') as $file) {
-                $images[] = $file->store('books', 'public');
+                $images[] = $file->storeOriginal('books', 'public');
             }
             $book->images = $images;
         }
@@ -117,7 +117,7 @@ class BookController extends Controller
             }
             $images = [];
             foreach ($request->file('images') as $file) {
-                $images[] = $file->store('books', 'public');
+                $images[] = $file->storeOriginal('books', 'public');
             }
             $book->images = $images;
         } elseif ($request->has('existing_images')) {

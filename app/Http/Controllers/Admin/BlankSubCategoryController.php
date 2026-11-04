@@ -40,7 +40,7 @@ class BlankSubCategoryController extends Controller
         $subcategory->blank_category_id = $request->blank_category_id;
         
         if ($request->hasFile('image')) {
-            $subcategory->image = $request->file('image')->store('blank-subcategories', 'public');
+            $subcategory->image = $request->file('image')->storeOriginal('blank-subcategories', 'public');
         }
 
         $subcategory->save();
@@ -74,7 +74,7 @@ class BlankSubCategoryController extends Controller
             if ($blankSubcategory->image) {
                 Storage::disk('public')->delete($blankSubcategory->image);
             }
-            $blankSubcategory->image = $request->file('image')->store('blank-subcategories', 'public');
+            $blankSubcategory->image = $request->file('image')->storeOriginal('blank-subcategories', 'public');
         }
 
         $blankSubcategory->save();

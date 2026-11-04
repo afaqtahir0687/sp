@@ -164,7 +164,7 @@
                                                  data-zoom-image="{{ url('storage/app/public/' . $image) }}"
                                                  width="468"
                                                  height="468"
-                                                 alt="product gallery" />
+                                                 alt="{{ $blankProduct->name }} Gallery Image" />
                                         </div>
                                     @endforeach
                                 @endif
@@ -179,7 +179,7 @@
                             <div class="owl-dot">
                                 <img src="{{ url('storage/app/public/' . $blankProduct->image) }}"
                                      width="110" height="110"
-                                     alt="product-thumbnail" />
+                                     alt="{{ $blankProduct->name }} Thumbnail" />
                             </div>
                         @endif
 
@@ -188,7 +188,7 @@
                                 <div class="owl-dot">
                                     <img src="{{ url('storage/app/public/' . $image) }}"
                                          width="110" height="110"
-                                         alt="product-thumbnail" />
+                                         alt="{{ $blankProduct->name }} Thumbnail" />
                                 </div>
                             @endforeach
                         @endif

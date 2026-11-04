@@ -33,7 +33,7 @@ class TestimonialController extends Controller
 
         $testimonial = new Testimonial();
         if ($request->hasFile('client_image')) {
-            $testimonial->client_image = $request->file('client_image')->store('testimonials', 'public');
+            $testimonial->client_image = $request->file('client_image')->storeOriginal('testimonials', 'public');
         }
         $testimonial->client_name_en     = $request->client_name_en;
         $testimonial->client_name_ar     = $request->client_name_ar;
@@ -72,7 +72,7 @@ class TestimonialController extends Controller
             if ($testimonial->client_image) {
                 Storage::disk('public')->delete($testimonial->client_image);
             }
-            $testimonial->client_image = $request->file('client_image')->store('testimonials', 'public');
+            $testimonial->client_image = $request->file('client_image')->storeOriginal('testimonials', 'public');
         }
         $testimonial->client_name_en     = $request->client_name_en;
         $testimonial->client_name_ar     = $request->client_name_ar;

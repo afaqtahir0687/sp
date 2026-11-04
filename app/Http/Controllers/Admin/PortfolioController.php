@@ -37,7 +37,7 @@ class PortfolioController extends Controller
         $imagePaths = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $imagePaths[] = $image->store('portfolios', 'public');
+                $imagePaths[] = $image->storeOriginal('portfolios', 'public');
             }
         }
 
@@ -96,7 +96,7 @@ class PortfolioController extends Controller
             
             $imagePaths = [];
             foreach ($request->file('images') as $image) {
-                $imagePaths[] = $image->store('portfolios', 'public');
+                $imagePaths[] = $image->storeOriginal('portfolios', 'public');
             }
             $data['images'] = $imagePaths;
         }

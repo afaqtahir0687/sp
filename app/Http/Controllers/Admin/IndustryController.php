@@ -30,7 +30,7 @@ class IndustryController extends Controller
 
         $industry = new Industry();
         if ($request->hasFile('image')) {
-            $industry->image = $request->file('image')->store('industries', 'public');
+            $industry->image = $request->file('image')->storeOriginal('industries', 'public');
         }
         $industry->icon = $request->icon;
         $industry->title_en = $request->title_en;
@@ -62,7 +62,7 @@ class IndustryController extends Controller
             if ($industry->image) {
                 Storage::disk('public')->delete($industry->image);
             }
-            $industry->image = $request->file('image')->store('industries', 'public');
+            $industry->image = $request->file('image')->storeOriginal('industries', 'public');
         }
         $industry->icon = $request->icon;
         $industry->title_en = $request->title_en;

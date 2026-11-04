@@ -22,7 +22,7 @@
                                 <div class="post-media">
                                     <a href="{{ route('single.index') }}">
                                         <img src="{{ asset('assets/images/products/product-1.jpg') }}" width="280"
-                                            height="280" alt="product">
+                                            height="280" alt="Blog Article Preview">
                                     </a>
                                     <div class="post-date">
                                         <span class="day">26</span>
@@ -50,7 +50,7 @@
                                 <div class="post-media">
                                     <a href="{{ route('single.index') }}">
                                         <img src="{{ asset('assets/images/products/product-2.jpg') }}" width="280"
-                                            height="280" alt="product">
+                                            height="280" alt="Blog Article Preview">
                                     </a>
                                     <div class="post-date">
                                         <span class="day">26</span>
@@ -78,7 +78,7 @@
                                 <div class="post-media">
                                     <a href="{{ route('single.index') }}">
                                         <img src="{{ asset('assets/images/products/product-3.jpg') }}" width="280"
-                                            height="280" alt="product">
+                                            height="280" alt="Blog Article Preview">
                                     </a>
                                     <div class="post-date">
                                         <span class="day">26</span>
@@ -106,7 +106,7 @@
                                 <div class="post-media">
                                     <a href="{{ route('single.index') }}">
                                         <img src="{{ asset('assets/images/products/product-4.jpg') }}" width="280"
-                                            height="280" alt="product">
+                                            height="280" alt="Blog Article Preview">
                                     </a>
                                     <div class="post-date">
                                         <span class="day">26</span>
@@ -177,7 +177,7 @@
                                     <div class="post-media">
                                         <a href="{{ route('single.index') }}">
                                             <img src="{{ asset('assets/images/products/product-1.jpg') }}" width="75"
-                                                height="75" alt="product">
+                                                height="75" alt="Blog Article Preview">
                                         </a>
                                     </div><!-- End .post-media -->
                                     <div class="post-info">
@@ -191,7 +191,7 @@
                                     <div class="post-media">
                                         <a href="{{ route('single.index') }}">
                                             <img src="{{ asset('assets/images/products/product-3.jpg') }}" width="75"
-                                                height="75" alt="product">
+                                                height="75" alt="Blog Article Preview">
                                         </a>
                                     </div><!-- End .post-media -->
                                     <div class="post-info">

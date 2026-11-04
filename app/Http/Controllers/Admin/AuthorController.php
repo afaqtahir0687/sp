@@ -38,7 +38,7 @@ class AuthorController extends Controller
         $author->status = $request->status;
         
         if ($request->hasFile('image')) {
-            $author->image = $request->file('image')->store('authors', 'public');
+            $author->image = $request->file('image')->storeOriginal('authors', 'public');
         }
 
         $author->save();
@@ -70,7 +70,7 @@ class AuthorController extends Controller
             if ($author->image) {
                 Storage::disk('public')->delete($author->image);
             }
-            $author->image = $request->file('image')->store('authors', 'public');
+            $author->image = $request->file('image')->storeOriginal('authors', 'public');
         }
 
         $author->save();

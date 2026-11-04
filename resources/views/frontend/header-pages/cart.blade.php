@@ -399,10 +399,10 @@
                                                         <a href="{{ route('product.show', [$details['category_slug'] ?? 'uncategorized', $details['subcategory_slug'] ?? 'no-sub', $details['slug']]) }}" class="product-image">
                                                     @endif
                                                         @if($details['image'])
-                                                            <img src="{{ asset('storage/app/public/' . $details['image']) }}" alt="product"
+                                                            <img src="{{ asset('storage/app/public/' . $details['image']) }}" alt="{{ $details['name'] ?? 'Cart Item' }}"
                                                                 width="80" height="80">
                                                         @else
-                                                            <img src="{{ asset('assets/images/products/product-1.jpg') }}" alt="product"
+                                                            <img src="{{ asset('assets/images/products/product-1.jpg') }}" alt="{{ $details['name'] ?? 'Cart Item' }}"
                                                                 width="80" height="80">
                                                         @endif
                                                     </a>

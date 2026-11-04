@@ -38,7 +38,7 @@ class PublisherController extends Controller
         $publisher->status = $request->status;
         
         if ($request->hasFile('logo')) {
-            $publisher->logo = $request->file('logo')->store('publishers', 'public');
+            $publisher->logo = $request->file('logo')->storeOriginal('publishers', 'public');
         }
 
         $publisher->save();
@@ -70,7 +70,7 @@ class PublisherController extends Controller
             if ($publisher->logo) {
                 Storage::disk('public')->delete($publisher->logo);
             }
-            $publisher->logo = $request->file('logo')->store('publishers', 'public');
+            $publisher->logo = $request->file('logo')->storeOriginal('publishers', 'public');
         }
 
         $publisher->save();

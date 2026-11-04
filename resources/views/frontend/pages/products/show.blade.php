@@ -236,7 +236,7 @@
                                                  data-zoom-image="{{ url('storage/app/public/' . $image) }}"
                                                  width="468"
                                                  height="468"
-                                                 alt="product gallery" />
+                                                 alt="{{ $product->name }} Gallery Image" />
                                         </div>
                                     @endforeach
                                 @endif
@@ -251,7 +251,7 @@
                             <div class="owl-dot">
                                 <img src="{{ url('storage/app/public/' . $product->image) }}"
                                      width="110" height="110"
-                                     alt="product-thumbnail" />
+                                     alt="{{ $product->name }} Thumbnail" />
                             </div>
                         @endif
 
@@ -260,7 +260,7 @@
                                 <div class="owl-dot">
                                     <img src="{{ url('storage/app/public/' . $image) }}"
                                          width="110" height="110"
-                                         alt="product-thumbnail" />
+                                         alt="{{ $product->name }} Thumbnail" />
                                 </div>
                             @endforeach
                         @endif
@@ -727,7 +727,7 @@
                                                 @if($index === 0)
                                                     <img src="{{ url('storage/app/public/' . $img) }}"
                                                          width="280" height="280"
-                                                         alt="Portfolio Work">
+                                                         alt="{{ $portfolio->title ?? 'Portfolio Project' }}">
                                                 @endif
                                             </a>
                                         @endforeach
@@ -800,7 +800,7 @@
                             @if($product->images)
                                 @foreach($product->images as $image)
                                     <div class="carousel-item">
-                                         <img src="{{ url('storage/app/public/' . $image) }}" class="d-block w-100" alt="product gallery" style="width: 100%; max-height: 550px; object-fit: contain; margin: auto; height: auto;">
+                                         <img src="{{ url('storage/app/public/' . $image) }}" class="d-block w-100" alt="{{ $product->name }} Gallery Image" style="width: 100%; max-height: 550px; object-fit: contain; margin: auto; height: auto;">
                                     </div>
                                 @endforeach
                             @endif

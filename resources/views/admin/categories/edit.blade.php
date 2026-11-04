@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+﻿@extends('admin.layouts.master')
 
 @section('content')
     <div class="card shadow mb-4">
@@ -108,9 +108,36 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Banner Button Link</label>
-                    <input type="text" name="banner_button_link" class="form-control" value="{{ $category->banner_button_link }}" placeholder="e.g., /products or https://example.com">
+                                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Banner Button Link</label>
+                            <input type="text" name="banner_button_link" class="form-control" value="{{ old('banner_button_link', $category->banner_button_link) }}" placeholder="e.g., /products or https://example.com">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Banner Text Color</label>
+                            <div class="d-flex align-items-center">
+                                <input type="color" name="banner_text_color" class="form-control mr-2" value="{{ old('banner_text_color', $category->banner_text_color ?? '#ffffff') }}" style="width: 60px; padding: 2px; height: 38px;">
+                                <input type="text" id="banner_text_color_hex" class="form-control" placeholder="#ffffff" value="{{ old('banner_text_color', $category->banner_text_color ?? '#ffffff') }}" oninput="this.previousElementSibling.value = this.value">
+                            </div>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const colorInput = document.querySelector('input[type="color"][name="banner_text_color"]');
+                                    const hexInput = document.getElementById('banner_text_color_hex');
+                                    if(colorInput && hexInput) {
+                                        colorInput.addEventListener('input', function() {
+                                            hexInput.value = this.value;
+                                        });
+                                    }
+                                });
+                            </script>
+                            @error('banner_text_color')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
 
                 <hr>

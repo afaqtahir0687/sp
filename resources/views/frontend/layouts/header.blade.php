@@ -1,4 +1,4 @@
-<header class="header">
+﻿<header class="header">
     <div class="header-top">
         <div class="container">
             <div class="header-left d-none d-sm-block">
@@ -161,7 +161,7 @@
                 </div>
 
                 <div class="header-contact d-none d-lg-flex pl-4 pr-4">
-                    <img alt="phone" src="{{ asset('assets/images/phone.png') }}" width="30" height="30" class="pb-1">
+                    <img alt="Call Us Now" src="{{ asset('assets/images/phone.png') }}" width="30" height="30" class="pb-1">
                     <h6><span>{{ __('header.call_us_now') }}</span><a href="tel:+966598500143" class="text-dark font1" dir="ltr">+966598500143</a></h6>
                 </div>
 
@@ -237,28 +237,28 @@
                                                 <figure>
                                                     @if($category->banner_image)
                                                         <img src="{{ asset('storage/app/public/' . $category->banner_image) }}" width="192"
-                                                            height="313" alt="Menu banner">
+                                                            height="313" alt="{{ $category->name }} Banner">
                                                     @else
                                                         <img src="{{ asset('assets/images/home-menu-banner.jpeg') }}" width="192"
-                                                            height="313" alt="Menu banner">
+                                                            height="313" alt="{{ $category->name }} Banner">
                                                     @endif
                                                 </figure>
-                                                <div class="banner-content">
-                                                    <h4>
+                                                                                                <div class="banner-content" @if(!empty($category->banner_text_color)) style="color: {{ $category->banner_text_color }} !important;" @endif>
+                                                    <h4 @if(!empty($category->banner_text_color)) style="color: {{ $category->banner_text_color }} !important;" @endif>
                                                         @if($category->banner_top_text)
-                                                            <span class="">{{ $category->banner_top_text }}</span><br />
+                                                            <span class="" @if(!empty($category->banner_text_color)) style="color: {{ $category->banner_text_color }} !important;" @endif>{{ $category->banner_top_text }}</span><br />
                                                         @else
-                                                            <span class="">{{ app()->getLocale() == 'ar' ? 'خصم يصل إلى' : 'UP TO' }}</span><br />
+                                                            <span class="" @if(!empty($category->banner_text_color)) style="color: {{ $category->banner_text_color }} !important;" @endif>{{ app()->getLocale() == 'ar' ? 'خصم يصل إلى' : 'UP TO' }}</span><br />
                                                         @endif
                                                         @if($category->banner_discount_text)
-                                                            <b class="">{{ $category->banner_discount_text }}</b>
+                                                            <b class="" @if(!empty($category->banner_text_color)) style="color: {{ $category->banner_text_color }} !important;" @endif>{{ $category->banner_discount_text }}</b>
                                                         @else
-                                                            <b class="">{{ app()->getLocale() == 'ar' ? '50%' : '50%' }}</b>
+                                                            <b class="" @if(!empty($category->banner_text_color)) style="color: {{ $category->banner_text_color }} !important;" @endif>{{ app()->getLocale() == 'ar' ? '50%' : '50%' }}</b>
                                                         @endif
                                                         @if($category->banner_bottom_text)
-                                                            <i>{{ $category->banner_bottom_text }}</i>
+                                                            <i @if(!empty($category->banner_text_color)) style="color: {{ $category->banner_text_color }} !important;" @endif>{{ $category->banner_bottom_text }}</i>
                                                         @else
-                                                            <i>{{ app()->getLocale() == 'ar' ? 'فقط' : 'OFF' }}</i>
+                                                            <i @if(!empty($category->banner_text_color)) style="color: {{ $category->banner_text_color }} !important;" @endif>{{ app()->getLocale() == 'ar' ? 'فقط' : 'OFF' }}</i>
                                                         @endif
                                                     </h4>
                                                     @if($category->banner_button_link)

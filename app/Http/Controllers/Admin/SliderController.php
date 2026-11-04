@@ -29,7 +29,7 @@ class SliderController extends Controller
 
         $slider = new Slider();
         if ($request->hasFile('image')) {
-            $slider->image = $request->file('image')->store('sliders', 'public');
+            $slider->image = $request->file('image')->storeOriginal('sliders', 'public');
         }
         $slider->title_en      = $request->title_en;
         $slider->title_ar      = $request->title_ar;
@@ -60,7 +60,7 @@ class SliderController extends Controller
             if ($slider->image) {
                 Storage::disk('public')->delete($slider->image);
             }
-            $slider->image = $request->file('image')->store('sliders', 'public');
+            $slider->image = $request->file('image')->storeOriginal('sliders', 'public');
         }
 
         $slider->title_en      = $request->title_en;

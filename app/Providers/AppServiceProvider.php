@@ -27,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
             require_once app_path('helper.php');
         }
 
+        \Illuminate\Http\UploadedFile::macro('storeOriginal', function ($folder = '', $disk = 'public') {
+            return store_uploaded_file($this, $folder, $disk);
+        });
+
         // Custom translation directive that uses JSON files
         Blade::directive('__', function ($expression) {
             return "<?php echo \App\Helpers\Translation::get($expression); ?>";

@@ -21,7 +21,7 @@ class SettingsController extends Controller
             Setting::updateOrCreate(['key' => 'site_name'], ['value' => $request->site_name]);
         }
         if ($request->hasFile('site_logo')) {
-            $logoPath = $request->file('site_logo')->store('settings', 'public');
+            $logoPath = $request->file('site_logo')->storeOriginal('settings', 'public');
             Setting::updateOrCreate(['key' => 'site_logo'], ['value' => $logoPath]);
         }
         if ($request->has('contact_email')) {

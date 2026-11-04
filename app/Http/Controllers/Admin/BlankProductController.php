@@ -60,13 +60,13 @@ class BlankProductController extends Controller
         $blankProduct->is_new_arrival = $request->has('is_new_arrival');
 
         if ($request->hasFile('image')) {
-            $blankProduct->image = $request->file('image')->store('blank-products', 'public');
+            $blankProduct->image = $request->file('image')->storeOriginal('blank-products', 'public');
         }
 
         if ($request->hasFile('images')) {
             $images = [];
             foreach ($request->file('images') as $file) {
-                $images[] = $file->store('blank-products/gallery', 'public');
+                $images[] = $file->storeOriginal('blank-products/gallery', 'public');
             }
             $blankProduct->images = $images;
         }
@@ -120,7 +120,7 @@ class BlankProductController extends Controller
             if ($blankProduct->image) {
                 Storage::disk('public')->delete($blankProduct->image);
             }
-            $blankProduct->image = $request->file('image')->store('blank-products', 'public');
+            $blankProduct->image = $request->file('image')->storeOriginal('blank-products', 'public');
         }
 
         // Handle gallery images update logic
@@ -144,7 +144,7 @@ class BlankProductController extends Controller
         // Add new images
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
-                $images[] = $file->store('blank-products/gallery', 'public');
+                $images[] = $file->storeOriginal('blank-products/gallery', 'public');
             }
         }
 

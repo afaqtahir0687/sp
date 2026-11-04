@@ -30,7 +30,7 @@ class PrintingTechnologyController extends Controller
 
         $technology = new PrintingTechnology();
         if ($request->hasFile('image')) {
-            $technology->image = $request->file('image')->store('printing_technologies', 'public');
+            $technology->image = $request->file('image')->storeOriginal('printing_technologies', 'public');
         }
         $technology->title_en = $request->title_en;
         $technology->title_ar = $request->title_ar;
@@ -61,7 +61,7 @@ class PrintingTechnologyController extends Controller
             if ($technology->image) {
                 Storage::disk('public')->delete($technology->image);
             }
-            $technology->image = $request->file('image')->store('printing_technologies', 'public');
+            $technology->image = $request->file('image')->storeOriginal('printing_technologies', 'public');
         }
         $technology->title_en = $request->title_en;
         $technology->title_ar = $request->title_ar;

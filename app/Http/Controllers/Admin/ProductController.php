@@ -154,13 +154,13 @@ class ProductController extends Controller
         $product->is_wishlist = $request->has('is_wishlist');
 
         if ($request->hasFile('image')) {
-            $product->image = $request->file('image')->store('products', 'public');
+            $product->image = $request->file('image')->storeOriginal('products', 'public');
         }
 
         if ($request->hasFile('images')) {
             $images = [];
             foreach ($request->file('images') as $file) {
-                $images[] = $file->store('products/gallery', 'public');
+                $images[] = $file->storeOriginal('products/gallery', 'public');
             }
             $product->images = $images;
         }
@@ -274,7 +274,7 @@ class ProductController extends Controller
             if ($product->image) {
                 Storage::disk('public')->delete($product->image);
             }
-            $product->image = $request->file('image')->store('products', 'public');
+            $product->image = $request->file('image')->storeOriginal('products', 'public');
         }
 
         // Handle gallery images update logic
@@ -298,7 +298,7 @@ class ProductController extends Controller
         // Add new images
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
-                $images[] = $file->store('products/gallery', 'public');
+                $images[] = $file->storeOriginal('products/gallery', 'public');
             }
         }
 

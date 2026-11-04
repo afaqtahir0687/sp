@@ -26,6 +26,7 @@ class Category extends Model
         'banner_button_text_en',
         'banner_button_text_ar',
         'banner_button_link',
+        'banner_text_color',
     ];
 
     protected $appends = ['name'];

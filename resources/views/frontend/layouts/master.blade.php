@@ -11,14 +11,24 @@
     
     // SEO Settings
     $currentRoute = \Illuminate\Support\Facades\Route::currentRouteName() ?? 'home';
-    $currentPath = \Illuminate\Support\Facades\Request::path();
+    $currentPath = trim(\Illuminate\Support\Facades\Request::path(), '/');
     
     $seo = \App\Models\SeoSetting::where('page_name', $currentRoute)
                                  ->orWhere('page_name', $currentPath)
                                  ->orWhere('page_name', '/' . $currentPath)
                                  ->first();
+
+    if (!$seo) {
+        $seo = \App\Models\SeoSetting::where('page_name', 'default')->first();
+    }
     
-    $appName = app()->getLocale() == 'ar' ? __('common.app_name') : config('app.name', 'Crelogics');
+    $appName = app()->getLocale() == 'ar' ? __('common.app_name') : config('app.name', 'New Sign Advertising');
+    $defaultKeywords = 'printing services, advertisements, business cards, flyers, banners, social media marketing, signage, riyadh';
+    $defaultDesc = 'New Sign Advertising provides high-quality printing and advertisement services including business cards, flyers, banners, and signage solutions in Riyadh, Saudi Arabia.';
+
+    $metaKeywords = (!empty($seo?->meta_keywords)) ? $seo->meta_keywords : (View::hasSection('meta_keywords') ? View::yieldContent('meta_keywords') : $defaultKeywords);
+    $metaDescription = (!empty($seo?->meta_description)) ? $seo->meta_description : (View::hasSection('meta_description') ? View::yieldContent('meta_description') : $defaultDesc);
+    $metaTitle = (!empty($seo?->title) && $seo->page_name !== 'default') ? $seo->title : (View::hasSection('title') ? View::yieldContent('title') . ' - ' . $appName : (!empty($seo?->title) ? $seo->title : $appName));
 @endphp
 <!DOCTYPE html>
 <html lang="{{ $locale }}" dir="{{ $dir }}">
@@ -28,18 +38,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-    <title>
-        @if(isset($seo) && !empty($seo->title))
-            {{ $seo->title }} - {{ $appName }}
-        @else
-            @yield('title', 'Home') - {{ $appName }}
-        @endif
-    </title>
+    <title>{{ $metaTitle }}</title>
     
-    <meta name="keywords" content="{{ isset($seo) && !empty($seo->meta_keywords) ? $seo->meta_keywords : View::yieldContent('meta_keywords', 'printing services, advertisements, business cards, flyers, banners, social media marketing') }}" />
-    
-    <meta name="description" content="{{ isset($seo) && !empty($seo->meta_description) ? $seo->meta_description : View::yieldContent('meta_description', 'Crelogics provides high-quality printing and advertisement services including business cards, flyers, banners, and digital marketing solutions.') }}">
-    <meta name="author" content="SW-THEMES">
+    <meta name="keywords" content="{{ $metaKeywords }}" />
+    <meta name="description" content="{{ $metaDescription }}" />
+    <meta name="author" content="{{ config('app.name', 'New Sign Advertising') }}">
+
+    <!-- Open Graph / Social Media Meta -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:title" content="{{ $metaTitle }}" />
+    <meta property="og:description" content="{{ $metaDescription }}" />
+    @if(config('app.logo'))
+        <meta property="og:image" content="{{ asset('storage/' . config('app.logo')) }}" />
+    @endif
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="{{ url()->current() }}" />
+    <meta name="twitter:title" content="{{ $metaTitle }}" />
+    <meta name="twitter:description" content="{{ $metaDescription }}" />
     <!--<link rel="icon" type="image/x-icon" href="assets/images/icons/favicon.png">-->
     <link rel="icon" type="image/jpeg" href="{{ asset('assets/images/demoes/demo4/title-logo.jpeg') }}">
     
@@ -1008,7 +1025,7 @@
             <img src="{{ asset('storage/app/public/' . config('app.logo')) }}" alt="{{ config('app.name') }}" width="111"
                 height="44" class="logo-newsletter">
             @else
-            <img src="{{ asset('assets/images/logo.png') }}" width="111" height="44" alt="Logo" class="logo-newsletter">
+            <img src="{{ asset('assets/images/logo.png') }}" width="111" height="44" alt="{{ config('app.name', 'New Sign Advertising') }}" class="logo-newsletter">
             @endif
             <h2>Subscribe to newsletter</h2>
 

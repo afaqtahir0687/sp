@@ -36,7 +36,7 @@ class BlankCategoryController extends Controller
         $category->status = $request->status;
         
         if ($request->hasFile('image')) {
-            $category->image = $request->file('image')->store('blank-categories', 'public');
+            $category->image = $request->file('image')->storeOriginal('blank-categories', 'public');
         }
 
         $category->save();
@@ -66,7 +66,7 @@ class BlankCategoryController extends Controller
             if ($blankCategory->image) {
                 Storage::disk('public')->delete($blankCategory->image);
             }
-            $blankCategory->image = $request->file('image')->store('blank-categories', 'public');
+            $blankCategory->image = $request->file('image')->storeOriginal('blank-categories', 'public');
         }
 
         $blankCategory->save();

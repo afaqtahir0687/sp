@@ -16,7 +16,7 @@
             @foreach($sliders as $slider)
                 <div class="home-slide home-slide1 banner">
                     <img class="slide-bg" src="{{ asset('storage/app/public/' . $slider->image) }}" width="1903" height="499"
-                        alt="slider image">
+                        alt="{{ $slider->title ?: config('app.name', 'New Sign Advertising') }}">
 
                     <div class="container d-flex align-items-center">
                         <div class="banner-layer appear-animate" data-animation-name="fadeInUpShorter">
@@ -41,7 +41,7 @@
             {{-- ❌ Static sliders (unchanged HTML) --}}
             <div class="home-slide home-slide1 banner">
                 <img class="slide-bg" src="{{ asset('assets/images/demoes/demo4/slider/slide-1.jpeg') }}" width="1903"
-                    height="499" alt="slider image">
+                    height="499" alt="{{ $slider->title ?: config('app.name', 'New Sign Advertising') }}">
 
                 <div class="container d-flex align-items-center">
                     <div class="banner-layer appear-animate" data-animation-name="fadeInUpShorter">
@@ -63,7 +63,7 @@
 
             <div class="home-slide home-slide2 banner banner-md-vw">
                 <img class="slide-bg" src="{{ asset('assets/images/demoes/demo4/slider/slide-2.jpeg') }}" width="1903"
-                    height="499" alt="slider image">
+                    height="499" alt="{{ $slider->title ?: config('app.name', 'New Sign Advertising') }}">
 
                 <div class="container d-flex align-items-center">
                     <div class="banner-layer d-flex justify-content-center appear-animate"
@@ -196,7 +196,7 @@
                     <div class="banner banner1 banner-sm-vw d-flex align-items-center appear-animate"
                         style="background-color: #ccc;" data-animation-name="fadeInLeftShorter" data-animation-delay="500">
                         <figure class="w-100">
-                            <img src="{{ asset('assets/images/demoes/demo4/banners/banner-1.jpg') }}" alt="banner" width="380"
+                            <img src="{{ asset('assets/images/demoes/demo4/banners/banner-1.jpg') }}" alt="Advertising & Printing Offers" width="380"
                                 height="175" />
                         </figure>
                         <div class="banner-layer">
@@ -210,7 +210,7 @@
                         data-animation-name="fadeInUpShorter" data-animation-delay="200">
                         <figure class="w-100">
                             <img src="{{ asset('assets/images/demoes/demo4/banners/banner-2.jpg') }}"
-                                style="background-color: #ccc;" alt="banner" width="380" height="175" />
+                                style="background-color: #ccc;" alt="Advertising & Printing Offers" width="380" height="175" />
                         </figure>
                         <div class="banner-layer text-center">
                             <div class="row align-items-lg-center">
@@ -228,7 +228,7 @@
                     <div class="banner banner3 banner-sm-vw d-flex align-items-center appear-animate"
                         style="background-color: #ccc;" data-animation-name="fadeInRightShorter" data-animation-delay="500">
                         <figure class="w-100">
-                            <img src="{{ asset('assets/images/demoes/demo4/banners/banner-3.jpg') }}" alt="banner" width="380"
+                            <img src="{{ asset('assets/images/demoes/demo4/banners/banner-3.jpg') }}" alt="Advertising & Printing Offers" width="380"
                                 height="175" />
                         </figure>
                         <div class="banner-layer text-right">
@@ -442,9 +442,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="{{ asset('assets/images/products/product-1.jpg') }}" width="280" height="280"
-                                    alt="product">
+                                    alt="Special Product Offer">
                                 <img src="{{ asset('assets/images/products/product-1-2.jpg') }}" width="280" height="280"
-                                    alt="product">
+                                    alt="Special Product Offer">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-hot">{{ __('home.hot') }}</div>
@@ -485,9 +485,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="{{ asset('assets/images/products/product-2.jpg') }}" width="280" height="280"
-                                    alt="product">
+                                    alt="Special Product Offer">
                                 <img src="{{ asset('assets/images/products/product-2-3.jpg') }}" width="280" height="280"
-                                    alt="product">
+                                    alt="Special Product Offer">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-hot">{{ __('home.hot') }}</div>
@@ -528,9 +528,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="{{ asset('assets/images/products/product-3.jpg') }}" width="280" height="280"
-                                    alt="product">
+                                    alt="Special Product Offer">
                                 <img src="{{ asset('assets/images/products/product-3-2.jpg') }}" width="280" height="280"
-                                    alt="product">
+                                    alt="Special Product Offer">
                             </a>
                         </figure>
                         <div class="product-details">
@@ -567,9 +567,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="{{ asset('assets/images/products/product-4.jpg') }}" width="280" height="280"
-                                    alt="product">
+                                    alt="Special Product Offer">
                                 <img src="{{ asset('assets/images/products/product-4-2.jpg') }}" width="280" height="280"
-                                    alt="product">
+                                    alt="Special Product Offer">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-hot">{{ __('home.hot') }}</div>
@@ -610,9 +610,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="{{ asset('assets/images/products/product-5.jpg') }}" width="280" height="280"
-                                    alt="product">
+                                    alt="Special Product Offer">
                                 <img src="{{ asset('assets/images/products/product-5-2.jpg') }}" width="280" height="280"
-                                    alt="product">
+                                    alt="Special Product Offer">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-hot">{{ __('home.hot') }}</div>
@@ -745,9 +745,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="{{ asset('assets/images/products/product-6.jpg') }}" width="220" height="220"
-                                    alt="product">
+                                    alt="Special Product Offer">
                                 <img src="{{ asset('assets/images/products/product-6-2.jpg') }}" width="220" height="220"
-                                    alt="product">
+                                    alt="Special Product Offer">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-hot">{{ __('home.hot') }}</div>
@@ -787,9 +787,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="{{ asset('assets/images/products/product-7.jpg') }}" width="220" height="220"
-                                    alt="product">
+                                    alt="Special Product Offer">
                                 <img src="{{ asset('assets/images/products/product-7-2.jpg') }}" width="220" height="220"
-                                    alt="product">
+                                    alt="Special Product Offer">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-hot">{{ __('home.hot') }}</div>
@@ -829,9 +829,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="{{ asset('assets/images/products/product-8.jpg') }}" width="220" height="220"
-                                    alt="product">
+                                    alt="Special Product Offer">
                                 <img src="{{ asset('assets/images/products/product-8-2.jpg') }}" width="220" height="220"
-                                    alt="product">
+                                    alt="Special Product Offer">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-sale">20% {{ __('home.off') }}</div>
@@ -871,9 +871,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="{{ asset('assets/images/products/product-9.jpg') }}" width="220" height="220"
-                                    alt="product">
+                                    alt="Special Product Offer">
                                 <img src="{{ asset('assets/images/products/product-9-2.jpg') }}" width="220" height="220"
-                                    alt="product">
+                                    alt="Special Product Offer">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-sale">30% {{ __('home.off') }}</div>
@@ -913,9 +913,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="{{ asset('assets/images/products/product-10.jpg') }}" width="220" height="220"
-                                    alt="product">
+                                    alt="Special Product Offer">
                                 <img src="{{ asset('assets/images/products/product-10-2.jpg') }}" width="220" height="220"
-                                    alt="product">
+                                    alt="Special Product Offer">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-hot">{{ __('home.hot') }}</div>
@@ -955,9 +955,9 @@
                         <figure>
                             <a href="{{ route('products.index') }}">
                                 <img src="{{ asset('assets/images/products/product-11.jpg') }}" width="220" height="220"
-                                    alt="product">
+                                    alt="Special Product Offer">
                                 <img src="{{ asset('assets/images/products/product-11-2.jpg') }}" width="220" height="220"
-                                    alt="product">
+                                    alt="Special Product Offer">
                             </a>
                             <div class="label-group">
                                 <div class="product-label label-sale">20% {{ __('home.off') }}</div>

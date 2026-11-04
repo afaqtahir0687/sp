@@ -138,3 +138,43 @@ if (!function_exists('getTrans')) {
         return $value;
     }
 }
+
+
+if (!function_exists('store_uploaded_file')) {
+    /**
+     * Store an uploaded file using its original sanitized filename instead of a random hash.
+     *
+     * @param \Illuminate\Http\UploadedFile $file
+     * @param string $folder
+     * @param string $disk
+     * @return string
+     */
+    function store_uploaded_file($file, $folder = '', $disk = 'public')
+    {
+        $originalName = $file->getClientOriginalName();
+        $filenameWithoutExt = pathinfo($originalName, PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension() ?: ($file->guessExtension() ?: 'png');
+
+        // Sanitize filename preserving letters, numbers, hyphens and underscores
+        $clean = preg_replace('/[^\p{L}\p{N}_\.-]+/u', '-', $filenameWithoutExt);
+        $clean = trim($clean, '-_.');
+        if (empty($clean)) {
+            $clean = 'image';
+        }
+
+        $folder = trim($folder, '/');
+        $targetName = "{$clean}.{$extension}";
+        $prefix = !empty($folder) ? "{$folder}/" : '';
+
+        // If a file already exists with this name, append counter (-1, -2, etc.) to prevent overwrite collisions
+        if (\Illuminate\Support\Facades\Storage::disk($disk)->exists($prefix . $targetName)) {
+            $counter = 1;
+            while (\Illuminate\Support\Facades\Storage::disk($disk)->exists($prefix . "{$clean}-{$counter}.{$extension}")) {
+                $counter++;
+            }
+            $targetName = "{$clean}-{$counter}.{$extension}";
+        }
+
+        return $file->storeAs($folder, $targetName, $disk);
+    }
+}

@@ -44,7 +44,7 @@ class BannerController extends Controller
         $banner->discount_text = $request->discount_text;
         
         if ($request->hasFile('image')) {
-            $banner->image = $request->file('image')->store('banners', 'public');
+            $banner->image = $request->file('image')->storeOriginal('banners', 'public');
         }
 
         $banner->save();
@@ -82,7 +82,7 @@ class BannerController extends Controller
             if ($banner->image) {
                 Storage::disk('public')->delete($banner->image);
             }
-            $banner->image = $request->file('image')->store('banners', 'public');
+            $banner->image = $request->file('image')->storeOriginal('banners', 'public');
         }
 
         $banner->save();

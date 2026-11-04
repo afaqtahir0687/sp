@@ -1,4 +1,4 @@
-@extends('frontend.layouts.master')
+﻿@extends('frontend.layouts.master')
 
 @section('title', $category->name)
 @section('meta_description', 'Explore our ' . $category->name . ' collection. High-quality professional printing services for ' . $category->name . ' and more at Crelogics.')
@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="pb-5 pb-md-0 col-sm-10 col-xl-8 col-lg-8 mb-4">
                             <h3
-                                style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word;{{ ($isSubcategory && $category->banner_text_color) ? ' color: ' . $category->banner_text_color . ';' : '' }}">
+                                style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word;color: {{ $category->banner_text_color ?: '#ffffff' }} !important;">
                                 @if($isSubcategory && $category->banner_title)
                                     {{ $category->banner_title }}
                                 @else
@@ -180,7 +180,7 @@
                                     <!-- Small Image for Popup (List View Only, Between Image and Text) -->
                                     <div class="list-view-thumbnail-container">
                                         <a href="javascript:void(0)" class="open-image-modal" data-img="{{ $product->image ? asset('storage/app/public/' . $product->image) : asset('assets/images/products/product-1.jpg') }}" data-title="{{ $product->name }}" title="View Full Image">
-                                            <img src="{{ $product->image ? asset('storage/app/public/' . $product->image) : asset('assets/images/products/product-1.jpg') }}" alt="Thumbnail" style="width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #eaeaea; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                            <img src="{{ $product->image ? asset('storage/app/public/' . $product->image) : asset('assets/images/products/product-1.jpg') }}" alt="{{ $product->name }} Thumbnail" style="width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #eaeaea; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                         </a>
                                     </div>
 
@@ -500,7 +500,7 @@
                     </button>
                 </div>
                 <div class="modal-body" style="padding: 25px; background: #f8f9fa; text-align: center;">
-                    <img src="" id="modalCardImage" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);">
+                    <img src="" id="modalCardImage" alt="{{ $category->name }} Product Preview" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);">
                 </div>
             </div>
         </div>

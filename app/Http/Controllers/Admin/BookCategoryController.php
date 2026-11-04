@@ -38,7 +38,7 @@ class BookCategoryController extends Controller
         $category->status = $request->status;
         
         if ($request->hasFile('image')) {
-            $category->image = $request->file('image')->store('book-categories', 'public');
+            $category->image = $request->file('image')->storeOriginal('book-categories', 'public');
         }
 
         $category->save();
@@ -70,7 +70,7 @@ class BookCategoryController extends Controller
             if ($bookCategory->image) {
                 Storage::disk('public')->delete($bookCategory->image);
             }
-            $bookCategory->image = $request->file('image')->store('book-categories', 'public');
+            $bookCategory->image = $request->file('image')->storeOriginal('book-categories', 'public');
         }
 
         $bookCategory->save();

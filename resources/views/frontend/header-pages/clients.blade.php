@@ -77,7 +77,7 @@
                             <div class="testimonial">
                                 <div class="testimonial-owner">
                                     <figure>
-                                        <img src="{{ asset('assets/images/clients/client1.png') }}" alt="Client" onerror="this.src='{{ asset('assets/images/placeholder.jpg') }}'" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
+                                        <img src="{{ asset('assets/images/clients/client1.png') }}" alt="{{ $client->name ?? 'Our Client Partner' }}" onerror="this.src='{{ asset('assets/images/placeholder.jpg') }}'" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
                                     </figure>
                                     <div>
                                         <strong class="testimonial-title">{{ __('clients.client_name') }}</strong>

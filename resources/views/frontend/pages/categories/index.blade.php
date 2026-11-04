@@ -385,9 +385,9 @@
                                                 <a href="{{ route('products.index') }}">
 
                                                     <img src="{{ asset('assets/images/products/product-1.jpg') }}"
-                                                        width="75" height="74" alt="product">
+                                                        width="75" height="74" alt="{{ config('app.name', 'New Sign Advertising') }} Product">
                                                     <img src="{{ asset('assets/images/products/product-1-2.jpg') }}"
-                                                        width="75" height="75" alt="product">
+                                                        width="75" height="75" alt="{{ config('app.name', 'New Sign Advertising') }} Product">
                                                 </a>
                                             </figure>
                                             <div class="product-details">
@@ -414,9 +414,9 @@
                                             <figure>
                                                 <a href="{{ route('products.index') }}">
                                                     <img src="{{ asset('assets/images/products/product-2.jpg') }}"
-                                                        width="75" height="75" alt="product">
+                                                        width="75" height="75" alt="{{ config('app.name', 'New Sign Advertising') }} Product">
                                                     <img src="{{ asset('assets/images/products/product-2-3.jpg') }}"
-                                                        width="75" height="75" alt="product">
+                                                        width="75" height="75" alt="{{ config('app.name', 'New Sign Advertising') }} Product">
                                                 </a>
                                             </figure>
                                             <div class="product-details">
@@ -443,9 +443,9 @@
                                             <figure>
                                                 <a href="{{ route('products.index') }}">
                                                     <img src="{{ asset('assets/images/products/product-3.jpg') }}"
-                                                        width="75" height="75" alt="product">
+                                                        width="75" height="75" alt="{{ config('app.name', 'New Sign Advertising') }} Product">
                                                     <img src="{{ asset('assets/images/products/product-3-2.jpg') }}"
-                                                        width="75" height="75" alt="product">
+                                                        width="75" height="75" alt="{{ config('app.name', 'New Sign Advertising') }} Product">
                                                 </a>
                                             </figure>
                                             <div class="product-details">
@@ -476,9 +476,9 @@
                                                 <a href="{{ route('products.index') }}">
 
                                                     <img src="{{ asset('assets/images/products/product-1.jpg') }}"
-                                                        width="75" height="74" alt="product">
+                                                        width="75" height="74" alt="{{ config('app.name', 'New Sign Advertising') }} Product">
                                                     <img src="{{ asset('assets/images/products/product-1-2.jpg') }}"
-                                                        width="75" height="75" alt="product">
+                                                        width="75" height="75" alt="{{ config('app.name', 'New Sign Advertising') }} Product">
                                                 </a>
                                             </figure>
                                             <div class="product-details">
@@ -505,9 +505,9 @@
                                             <figure>
                                                 <a href="{{ route('products.index') }}">
                                                     <img src="{{ asset('assets/images/products/product-2.jpg') }}"
-                                                        width="75" height="75" alt="product">
+                                                        width="75" height="75" alt="{{ config('app.name', 'New Sign Advertising') }} Product">
                                                     <img src="{{ asset('assets/images/products/product-2-3.jpg') }}"
-                                                        width="75" height="75" alt="product">
+                                                        width="75" height="75" alt="{{ config('app.name', 'New Sign Advertising') }} Product">
                                                 </a>
                                             </figure>
                                             <div class="product-details">
@@ -534,9 +534,9 @@
                                             <figure>
                                                 <a href="{{ route('products.index') }}">
                                                     <img src="{{ asset('assets/images/products/product-3.jpg') }}"
-                                                        width="75" height="75" alt="product">
+                                                        width="75" height="75" alt="{{ config('app.name', 'New Sign Advertising') }} Product">
                                                     <img src="{{ asset('assets/images/products/product-3-2.jpg') }}"
-                                                        width="75" height="75" alt="product">
+                                                        width="75" height="75" alt="{{ config('app.name', 'New Sign Advertising') }} Product">
                                                 </a>
                                             </figure>
                                             <div class="product-details">

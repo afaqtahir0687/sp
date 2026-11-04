@@ -53,11 +53,11 @@ class SubcategoryController extends Controller
         $subcategory->banner_text_color = $request->banner_text_color;
         
         if ($request->hasFile('image')) {
-            $subcategory->image = $request->file('image')->store('subcategories', 'public');
+            $subcategory->image = $request->file('image')->storeOriginal('subcategories', 'public');
         }
 
         if ($request->hasFile('banner_image')) {
-            $subcategory->banner_image = $request->file('banner_image')->store('subcategories', 'public');
+            $subcategory->banner_image = $request->file('banner_image')->storeOriginal('subcategories', 'public');
         }
 
         $subcategory->save();
@@ -103,14 +103,14 @@ class SubcategoryController extends Controller
             if ($subcategory->image) {
                 Storage::disk('public')->delete($subcategory->image);
             }
-            $subcategory->image = $request->file('image')->store('subcategories', 'public');
+            $subcategory->image = $request->file('image')->storeOriginal('subcategories', 'public');
         }
 
         if ($request->hasFile('banner_image')) {
             if ($subcategory->banner_image) {
                 Storage::disk('public')->delete($subcategory->banner_image);
             }
-            $subcategory->banner_image = $request->file('banner_image')->store('subcategories', 'public');
+            $subcategory->banner_image = $request->file('banner_image')->storeOriginal('subcategories', 'public');
         }
 
         $subcategory->save();

@@ -94,7 +94,7 @@
                     <div class="testimonial">
                         <div class="testimonial-owner">
                             <figure>
-                                <img src="assets/images/clients/client1.png" alt="client">
+                                <img src="assets/images/clients/client1.png" alt="Client Partner - {{ config('app.name', 'New Sign Advertising') }}">
                             </figure>
 
                             <div>
@@ -111,7 +111,7 @@
                     <div class="testimonial">
                         <div class="testimonial-owner">
                             <figure>
-                                <img src="assets/images/clients/client2.png" alt="client">
+                                <img src="assets/images/clients/client2.png" alt="Client Partner - {{ config('app.name', 'New Sign Advertising') }}">
                             </figure>
 
                             <div>
@@ -128,7 +128,7 @@
                     <div class="testimonial">
                         <div class="testimonial-owner">
                             <figure>
-                                <img src="assets/images/clients/client1.png" alt="client">
+                                <img src="assets/images/clients/client1.png" alt="Client Partner - {{ config('app.name', 'New Sign Advertising') }}">
                             </figure>
 
                             <div>

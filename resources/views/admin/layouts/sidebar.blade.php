@@ -4,7 +4,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Crelogics<sup>&copy;</sup></div>
+        <div class="sidebar-brand-text mx-3">New Sign Advertising<sup>&copy;</sup></div>
     </a>
 
     <hr class="sidebar-divider my-0">
@@ -257,6 +257,13 @@
     </li>
 
     <hr class="sidebar-divider">
+
+    <li class="nav-item {{ request()->routeIs('admin.seo-settings.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.seo-settings.index') }}">
+            <i class="fas fa-fw fa-search"></i>
+            <span>SEO Settings</span>
+        </a>
+    </li>
 
     <li class="nav-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.settings.index') }}">

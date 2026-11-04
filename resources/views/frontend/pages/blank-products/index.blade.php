@@ -213,7 +213,7 @@
                                     <!-- Small Image for Popup (List View Only, Between Image and Text) -->
                                     <!-- <div class="list-view-thumbnail-container">
                                         <a href="javascript:void(0)" class="open-image-modal" data-img="{{ $blankProduct->image ? asset('storage/app/public/' . $blankProduct->image) : asset('assets/images/products/product-1.jpg') }}" data-title="{{ $blankProduct->name }}" title="View Full Image">
-                                            <img src="{{ $blankProduct->image ? asset('storage/app/public/' . $blankProduct->image) : asset('assets/images/products/product-1.jpg') }}" alt="Thumbnail" style="width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #eaeaea; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                            <img src="{{ $blankProduct->image ? asset('storage/app/public/' . $blankProduct->image) : asset('assets/images/products/product-1.jpg') }}" alt="{{ $blankProduct->name }} Thumbnail" style="width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #eaeaea; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                         </a>
                                     </div> -->
 

@@ -31,7 +31,7 @@ class ClientController extends Controller
 
         $client = new Client();
         if ($request->hasFile('image')) {
-            $client->image = $request->file('image')->store('clients', 'public');
+            $client->image = $request->file('image')->storeOriginal('clients', 'public');
         }
         $client->name_en    = $request->name_en;
         $client->name_ar    = $request->name_ar;
@@ -63,7 +63,7 @@ class ClientController extends Controller
             if ($client->image) {
                 Storage::disk('public')->delete($client->image);
             }
-            $client->image = $request->file('image')->store('clients', 'public');
+            $client->image = $request->file('image')->storeOriginal('clients', 'public');
         }
         $client->name_en    = $request->name_en;
         $client->name_ar    = $request->name_ar;
